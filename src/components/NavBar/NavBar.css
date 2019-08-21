@@ -1,0 +1,10 @@
+.d-flex{
+    margin: 0px;
+    padding: 0px;
+}
+.dropdown:hover > .dropdown-menu {
+    display: block;
+}
+.dropdown > .dropdown-toggle:active {
+    pointer-events: none;
+}

@@ -1,6 +1,6 @@
-.d-flex{
-    margin: 0px;
-    padding: 0px;
+.form-inline{
+    position: relative;
+    left: -60px;
 }
 .dropdown:hover > .dropdown-menu {
     display: block;

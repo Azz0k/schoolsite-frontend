@@ -1,11 +1,14 @@
 const webpack = require('webpack');
 const path = require('path');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const WebpackMd5Hash = require('webpack-md5-hash');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 var config = {
     entry: './src/index.js',
 
     output: {
-        path: path.join(__dirname, '/dist'),//path.join(__dirname, '/dist'),'/var/www/schoolsite/dist'
-        filename: 'index.js',
+        path: '/var/www/schoolsite/dist',// path.join(__dirname, '/dist'),'/var/www/schoolsite/dist'
+        filename: '[name].[chunkhash].js'//'index.js',
     },
 
     devServer: {
@@ -28,13 +31,32 @@ var config = {
       }
                 
             },
-            { test: /\.css$/, loader: 'css-loader' },
+            {
+                test: /\.css$/i,
+                use:  [  'style-loader', MiniCssExtractPlugin.loader, 'css-loader']
+            },
             {
                 test: /\.svg$/,
                 loader: 'svg-inline-loader'
             }
         ]
     },
+    plugins: [
+        // new ExtractTextPlugin(
+        //   {filename: 'style.[hash].css', disable: false, allChunks: true }
+        // ),
+        new MiniCssExtractPlugin({
+            filename: 'style.[contenthash].css',
+        }),
+
+        new WebpackMd5Hash(),
+        new HtmlWebpackPlugin({
+            inject: false,
+            hash: true,
+            template: './src/index.html',
+            filename: 'index.html'
+        }),
+    ]
 }
 
 module.exports = config;

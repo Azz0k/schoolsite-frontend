@@ -10,10 +10,10 @@ class NavBar extends React.Component{
         }
     }
     render() {
-        const formInlineCSS = {
-          position: "relative",
-          left: "-20px"
-        };
+     //   const formInlineCSS = {
+     //     position: "relative",
+      //    left: "-20px"
+       // };
         return(
           <Fragment>
               <nav className="navbar navbar-expand-lg navbar-light bg-light"
@@ -49,7 +49,7 @@ class NavBar extends React.Component{
                               <a className="nav-link disabled" href="#">Disabled</a>
                           </li>
                       </ul>
-                      <form className="form-inline my-2 my-lg-0" style = {formInlineCSS}>
+                      <form className="form-inline my-2 my-lg-0" >
                           <input className="form-control mr-sm-2" type="search" placeholder="Search"
                                  aria-label="Search"></input>
                               <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>

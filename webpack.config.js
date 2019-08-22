@@ -4,7 +4,7 @@ var config = {
     entry: './src/index.js',
 
     output: {
-        path: '/var/www/schoolsite/dist',//path.join(__dirname, '/dist'),
+        path: path.join(__dirname, '/dist'),//path.join(__dirname, '/dist'),'/var/www/schoolsite/dist'
         filename: 'index.js',
     },
 
@@ -20,11 +20,13 @@ var config = {
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader',
-
-                query: {
-                    presets: ['es2015', 'react']
-                }
+                use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env', '@babel/preset-react']
+        }
+      }
+                
             },
             { test: /\.css$/, loader: 'css-loader' },
             {

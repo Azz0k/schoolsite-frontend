@@ -1,19 +1,17 @@
 import React, {Fragment} from 'react';
+import NavElement from "./NavElement";
 import './NavBar.css';
 import DropDownAuthMenu from './DropDownAuthMenu.js';
 
-class NavBar extends React.Component{
-    constructor(){
-        super();
+class NavBar extends React.PureComponent{
+    constructor(props){
+        super(props);
         this.state = {
-            isAuthorized:false
-        }
+
+        };
     }
     render() {
-     //   const formInlineCSS = {
-     //     position: "relative",
-      //    left: "-20px"
-       // };
+        let NavElements=this.props.MainMenu.map(data=><NavElement key={data.id} id={data.id} href={data.href} name={data.name} children={data.children}/>);
         return(
           <Fragment>
               <nav className="navbar navbar-expand-lg navbar-light bg-light"
@@ -26,40 +24,15 @@ class NavBar extends React.Component{
 
                   <div className="collapse navbar-collapse " id="navbarSupportedContent">
                       <ul className="navbar-nav mr-auto">
-                          <li className="nav-item active">
-                              <a className="nav-link" href="#">message <span
-                                  className="sr-only">(current)</span></a>
-                          </li>
-                          <li className="nav-item">
-                              <a className="nav-link" href="#">Link</a>
-                          </li>
-                          <li className="nav-item dropdown">
-                              <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Dropdown
-                              </a>
-                              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                  <a className="dropdown-item" href="#">Action</a>
-                                  <a className="dropdown-item" href="#">Another action</a>
-                                  <div className="dropdown-divider"></div>
-                                  <a className="dropdown-item" href="#">Something else here</a>
-                              </div>
-                          </li>
-                          <li className="nav-item">
-                              <a className="nav-link disabled" href="#">Disabled</a>
-                          </li>
+                          {NavElements}
                       </ul>
-                      <form className="form-inline my-2 my-lg-0" >
-                          <input className="form-control mr-sm-2" type="search" placeholder="Search"
-                                 aria-label="Search"></input>
-                              <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                      </form>
+
                       <div className="btn-group ">
                           <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
                                   aria-haspopup="true" aria-expanded="false">
-                              Right-aligned menu
+                              {this.props.LoginMenu.signin}
                           </button>
-                          <DropDownAuthMenu isAutorized={this.state.isAuthorized}/>
+                          <DropDownAuthMenu isAuthorized={this.props.isAuthorized} LoginMenu={this.props.LoginMenu}/>
                       </div>
                   </div>
               </nav>

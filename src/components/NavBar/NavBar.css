@@ -1,10 +1,13 @@
 .form-inline{
     position: relative;
-    left: -60px;
+    left: -20px;
 }
 .dropdown:hover > .dropdown-menu {
     display: block;
 }
 .dropdown > .dropdown-toggle:active {
     pointer-events: none;
+}
+.dropdown-menu-right{
+    width: 250px;
 }

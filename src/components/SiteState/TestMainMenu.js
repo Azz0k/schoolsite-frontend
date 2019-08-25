@@ -40,7 +40,23 @@ let TestMainMenu = [
     {id:'3',
         name:'Родителям',
         href: '#',
-        children:[]
+        children:[
+            {id:'3-1',
+            name:'Родителям-1',
+            href: '#',
+            children:[]
+        },
+            {id:'3-2',
+                name:'Родителям-2',
+                href: '#',
+                children:[
+                    {id:'3-2-1',
+                    name:'Родителям-3',
+                    href: '#',
+                    children:[]
+                }]
+            },
+        ]
     },
     {id:'4',
         name:'Начальная школа',

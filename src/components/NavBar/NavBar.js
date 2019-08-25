@@ -27,7 +27,7 @@ class NavBar extends React.PureComponent{
                           {NavElements}
                       </ul>
 
-                      <div className="btn-group ">
+                      <div className="btn-group">
                           <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
                                   aria-haspopup="true" aria-expanded="false">
                               {this.props.LoginMenu.signin}

@@ -2,30 +2,30 @@ let TestMainMenu = [
     {id:'1',
         name:'Главная',
         href: '#',
-        children:[]
+        submenu:[]
     },
     {id:'2',
         name:'Сведения об образовательной организации',
         href: '#',
-        children:[
+        submenu:[
             {id: '2-1',
                 name:'Основные сведения',
                 href: '#',
-                children:[]
+                submenu:[]
             },
             {id:'2-2',
                 name:'Структура и органы управления образовательной организацией',
                 href: '#',
-                children:[]
+                submenu:[]
             },
             {id:'2-3',
                 name:'Документы',
                 href: '#',
-                children:[
+                submenu:[
                     {id:'2-3-1',
                         name:'Еще что-то',
                         href: '#',
-                        children:[]
+                        submenu:[]
                     },
 
                 ]
@@ -33,27 +33,27 @@ let TestMainMenu = [
             {id:'2-4',
                 name:'Образование',
                 href: '#',
-                children:[]
+                submenu:[]
             },
         ]
     },
     {id:'3',
         name:'Родителям',
         href: '#',
-        children:[
+        submenu:[
             {id:'3-1',
             name:'Родителям-1',
             href: '#',
-            children:[]
+            submenu:[]
         },
             {id:'3-2',
                 name:'Родителям-2',
                 href: '#',
-                children:[
+                submenu:[
                     {id:'3-2-1',
                     name:'Родителям-3',
                     href: '#',
-                    children:[]
+                    submenu:[]
                 }]
             },
         ]
@@ -61,7 +61,7 @@ let TestMainMenu = [
     {id:'4',
         name:'Начальная школа',
         href: '#',
-        children:[]
+        submenu:[]
     },
 ];
 export default TestMainMenu;

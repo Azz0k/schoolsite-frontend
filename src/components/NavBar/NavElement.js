@@ -27,17 +27,19 @@ class NavElement extends React.PureComponent{
         )
     }
 
-    CreateChildElements(children){
+    CreateChildElements(submenu){
         let result = [];
-        for (let i = 0; i <children.length ; i++) {
-            if (children[i].children.length===0) result.push(<ChildElement key={'child'+children[i].id} href={children[i].href} name={children[i].name}/>)
+
+        for (let i = 0; i <submenu.length ; i++) {
+
+            if (submenu[i].submenu.length===0) result.push(<ChildElement key={submenu[i].id} href={submenu[i].href} name={submenu[i].name}/>)
             else
             {
-                let temp = this.CreateChildElements(children[i].children);
+                let temp = this.CreateChildElements(submenu[i].submenu);
                 result.push(
-                    <li className="nav-item dropdown-submenu" key={children[i].id}>
-                        <a className="dropdown-item" href={children[i].href}>
-                            {children[i].name}
+                    <li className="nav-item dropdown-submenu" key={submenu[i].id}>
+                        <a className="dropdown-item" href={submenu[i].href}>
+                            {submenu[i].name}
                         </a>
                         <ul className="dropdown-menu">
                             {temp}
@@ -51,8 +53,8 @@ class NavElement extends React.PureComponent{
 
 
     DropDownElement(){
-     //   let ChildElements=this.props.children.map(data=><ChildElement key={'child'+data.id} href={data.href} name={data.name}/>)
-        let ChildElements = this.CreateChildElements(this.props.children);
+     //   let ChildElements=this.props.submenu.map(data=><ChildElement key={'child'+data.id} href={data.href} name={data.name}/>)
+        let ChildElements = this.CreateChildElements(this.props.submenu);
         return(
             <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href={this.props.href} id={"navbarDropdown"+this.props.id}>
@@ -65,7 +67,7 @@ class NavElement extends React.PureComponent{
         )
     }
     render() {
-        if (this.props.children.length===0)
+        if (this.props.submenu.length===0)
             return this.SingeElement();
         else {
             return this.DropDownElement();

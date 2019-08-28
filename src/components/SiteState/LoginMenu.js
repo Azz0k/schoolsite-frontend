@@ -1,6 +1,6 @@
 
 let LoginMenu = {
-    email:'Адрес электронной почты',
+    email:'Введите имя и пароль',
     password:'Пароль',
     remember:'Запомнить меня',
     showpassword:'Показать пароль',

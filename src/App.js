@@ -14,7 +14,7 @@ class App extends React.Component{
         return (
             <Fragment>
                 <Header/>
-                <NavBar isAuthorized={this.state.isAuthorized} LoginMenu={this.state.LoginMenu} MainMenu={this.state.MainMenu}/>
+                <NavBar isAuthorized={this.state.isAuthorized} LoginMenu={this.state.LoginMenu} MainMenu={this.state.MainMenu} AdminMenu={this.state.AdminMenu}/>
                 <Container/>
             </Fragment>
         );

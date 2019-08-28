@@ -1,11 +1,12 @@
 import TestMainMenu from "./TestMainMenu";
 import LoginMenu from "./LoginMenu";
+import AdminMenu from "./AdminMenu";
 class SiteState {
     static #instance = null;
     #isAuthorized = false;
     #User = null;
     #MainMenu = TestMainMenu;
-    #AdminMenu = null;
+    #AdminMenu = AdminMenu;
     #LoginMenu = LoginMenu;
     constructor(){
         if (!SiteState.#instance){
@@ -21,6 +22,9 @@ class SiteState {
     }
     get MainMenu(){
         return this.#MainMenu;
+    }
+    get AdminMenu(){
+        return this.#AdminMenu;
     }
 }
 

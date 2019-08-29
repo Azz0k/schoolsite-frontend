@@ -14,12 +14,6 @@ function NavBarToggler() {
     )
 }
 class NavBar extends React.PureComponent{
-    constructor(props){
-        super(props);
-        this.state = {
-
-        };
-    }
     render() {
         let NavElements=this.props.MainMenu.map(data=><NavElement key={data.id} id={data.id} href={data.href} name={data.name} submenu={data.submenu}/>);
         return(
@@ -36,7 +30,8 @@ class NavBar extends React.PureComponent{
                           <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               {this.props.LoginMenu.signin}
                           </button>
-                          <DropDownAuthMenu isAuthorized={this.props.isAuthorized} LoginMenu={this.props.LoginMenu} AdminMenu={this.props.AdminMenu}/>
+                          <DropDownAuthMenu isAuthorized={this.props.isAuthorized} LoginMenu={this.props.LoginMenu}
+                                            AdminMenu={this.props.AdminMenu} onRememberInputClick={this.props.onRememberInputClick} handleLoginSubmit={this.props.handleLoginSubmit}/>
                       </div>
                   </div>
               </nav>

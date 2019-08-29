@@ -4,6 +4,7 @@ import AdminMenu from "./AdminMenu";
 class SiteState {
     static #instance = null;
     #isAuthorized = false;
+    #isRememberChecked = false;
     #User = null;
     #MainMenu = TestMainMenu;
     #AdminMenu = AdminMenu;
@@ -25,6 +26,14 @@ class SiteState {
     }
     get AdminMenu(){
         return this.#AdminMenu;
+    }
+    get isRememberChecked(){
+        return this.#isRememberChecked;
+    }
+    set isRememberChecked(value){
+        if (typeof value ==='boolean')
+            this.#isRememberChecked = value;
+
     }
 }
 

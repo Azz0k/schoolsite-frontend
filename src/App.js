@@ -5,6 +5,7 @@ import Container from './components/Container/Container.js';
 import './App.css';
 import SiteState from "./components/SiteState/SiteState";
 
+
 class App extends React.Component{
     constructor(props){
         super(props);
@@ -20,7 +21,10 @@ class App extends React.Component{
         this.setState((state)=>(state.site.isRememberChecked = value));
     }
     handleLoginSubmit(fields){
-
+        let pattern = /^[\w-_@]+$/;
+        if (pattern.test(fields.username)){
+            this.state.site.Authorization(fields.username,fields.password);
+        }
     }
     render() {
         return (

@@ -1,15 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-function debounce(time, func) {
-    let isCooldown = false;
-    return function () {
-        if (isCooldown) return;
-        func.apply(this, arguments);
-        isCooldown = true;
-        setTimeout(()=>isCooldown=false,time);
-    }
 
-}
 class DropdownFormPassword extends React.PureComponent{
     render() {
         return(
@@ -66,7 +57,7 @@ class  DropDownRememberCheck extends React.PureComponent{
     render() {
         return(
             <div className="form-check">
-                <input type="checkbox" className="form-check-input" id="rememberCheck" onClick={this.rememberCheckClick} value=""></input>
+                <input type="checkbox" className="form-check-input" id="rememberCheck" onClick={this.rememberCheckClick} value="" checked={this.props.isRememberChecked}></input>
                 <label className="form-check-label" htmlFor="rememberCheck">
                     {this.props.remember}
                 </label>
@@ -92,7 +83,7 @@ class DropDownAuthMenu extends React.PureComponent{
         this.showPasswordClick = this.showPasswordClick.bind(this);
         this.onSubmitClick = this.onSubmitClick.bind(this);
         this.handleChangeFields = this.handleChangeFields.bind(this);
-        this.handleChangeFields = debounce(500,this.handleChangeFields);
+        //this.handleChangeFields = debounce(500,this.handleChangeFields);
     }
     componentDidMount() {
         $(this.divRef.current).on("click.bs.dropdown", this.buttonClick);//обработчик событий нажатия. Нужен, чтобы форма не закрывалась при кликах. Работает только на jquery из-за бутстрапа
@@ -126,7 +117,7 @@ class DropDownAuthMenu extends React.PureComponent{
                     <DropDownFormUsername textlabel={this.props.LoginMenu.email} handlerChange={this.handleChangeFields}/>
                     <DropdownFormPassword placeholder={this.props.LoginMenu.password} show={this.state.showPassword} handlerChange={this.handleChangeFields}/>
                     <DropDownPasswordCheck onPasswordInputClick={this.showPasswordClick} showpassword={this.props.LoginMenu.showpassword}/>
-                    <DropDownRememberCheck onRememberInputClick={this.props.onRememberInputClick} remember={this.props.LoginMenu.remember}/>
+                    <DropDownRememberCheck onRememberInputClick={this.props.onRememberInputClick} remember={this.props.LoginMenu.remember} isRememberChecked={this.props.isRememberChecked}/>
 
                     <button type="submit" className="btn btn-primary" onClick={this.onSubmitClick}>{this.props.LoginMenu.signin}</button>
                 </form>

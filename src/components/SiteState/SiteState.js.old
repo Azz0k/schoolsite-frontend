@@ -1,0 +1,109 @@
+import TestMainMenu from "./TestMainMenu";
+import LoginMenu from "./LoginMenu";
+import AdminMenu from "./AdminMenu";
+import BackendAPI from "./BackendAPI";
+import axios from 'axios';
+class SiteState {
+    static #instance = null;
+    #isAuthorized = false;
+    #isRememberChecked = false;
+    #User = null;
+    #MainMenu = TestMainMenu;
+    #AdminMenu = AdminMenu;
+    #LoginMenu = LoginMenu;
+    #BackendAPI = BackendAPI;
+
+    constructor(){
+        if (!SiteState.#instance){
+            SiteState.#instance = this;
+        }
+
+     return SiteState.#instance;
+    }
+    get isAuthorized(){
+        return this.#isAuthorized;
+    }
+    get LoginMenu(){
+        return this.#LoginMenu;
+    }
+    get MainMenu(){
+        return this.#MainMenu;
+    }
+    get AdminMenu(){
+        return this.#AdminMenu;
+    }
+    get isRememberChecked(){
+        return this.#isRememberChecked;
+    }
+    set isRememberChecked(value){
+        if (typeof value ==='boolean')
+            this.#isRememberChecked = value;
+
+    }
+    StoreJWT(jwt){
+        this.#BackendAPI.jwt = jwt;
+
+        if (this.#isRememberChecked){
+            localStorage.setItem('jwt', jwt);
+            sessionStorage.clear();
+        }
+        else {
+            sessionStorage.setItem('jwt', jwt);
+            localStorage.clear();
+        }
+    }
+    ClearJWT(){
+        localStorage.clear();
+        sessionStorage.clear();
+    }
+
+    async GetAndValidateJWT(){
+        let url = this.#BackendAPI.host+this.#BackendAPI.api+this.#BackendAPI.loginUrl;
+        let jwt = null;
+        if (sessionStorage.getItem('jwt')){
+            jwt = sessionStorage.getItem('jwt');
+            this.#isRememberChecked = false;
+        }
+        else if (localStorage.getItem('jwt')){
+            jwt = localStorage.getItem('jwt');
+            this.#isRememberChecked = true;
+        }
+        else return null;
+
+        let AuthHeader = {'Authorization':'Bearer '+jwt};
+        let response = await this.#BackendAPI.app.get(url,{headers:AuthHeader});
+        jwt = response.data['jwt'];
+        if (response.status===200 && jwt){
+            this.#isAuthorized = true;
+            this.StoreJWT(jwt);
+        }
+        else {
+            this.#isAuthorized = false;
+            this.ClearJWT();
+        }
+
+    }
+
+    async Authorization(username, password){
+        let url = this.#BackendAPI.host+this.#BackendAPI.api+this.#BackendAPI.loginUrl;
+        let response = await this.#BackendAPI.app.get(url).catch((error)=>(console.log(error)));
+        let csrf = response.data['csrf'];
+        let data = {username:username,password:password, csrf:csrf};
+        response = await this.#BackendAPI.app.post(url,data);
+        let jwt = response.data['jwt'];
+        if (response.status===200 && jwt){
+            this.#isAuthorized = true;
+            this.StoreJWT(jwt);
+        }
+        else {
+            this.#isAuthorized = false;
+            this.ClearJWT();
+        }
+
+
+    }
+
+
+}
+
+export default SiteState;

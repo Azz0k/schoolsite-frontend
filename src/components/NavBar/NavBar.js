@@ -31,7 +31,8 @@ class NavBar extends React.PureComponent{
                               {this.props.LoginMenu.signin}
                           </button>
                           <DropDownAuthMenu isAuthorized={this.props.isAuthorized} LoginMenu={this.props.LoginMenu}
-                                            AdminMenu={this.props.AdminMenu} onRememberInputClick={this.props.onRememberInputClick} handleLoginSubmit={this.props.handleLoginSubmit}/>
+                                            AdminMenu={this.props.AdminMenu} onRememberInputClick={this.props.onRememberInputClick} handleLoginSubmit={this.props.handleLoginSubmit}
+                          isRememberChecked={this.props.isRememberChecked}/>
                       </div>
                   </div>
               </nav>

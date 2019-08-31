@@ -1,10 +1,8 @@
 import React from 'react';
-import $ from 'jquery';
+
 
 class ChildElement extends React.PureComponent{
-    constructor(props) {
-        super(props);
-    }
+
     render() {
 
             return(

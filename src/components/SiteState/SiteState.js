@@ -12,6 +12,7 @@ let SiteState = {
     AdminMenu : AdminMenu,
     LoginMenu : LoginMenu,
     BackendAPI : BackendAPI,
-}
+
+};
 
 export default SiteState;

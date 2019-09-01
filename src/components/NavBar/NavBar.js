@@ -1,7 +1,7 @@
-import React, {Fragment} from 'react';
+import React, {Fragment,Suspense} from 'react';
 import NavElement from "./NavElement";
 import './NavBar.css';
-import DropDownAuthMenu from './DropDownAuthMenu.js';
+//import DropDownAuthMenu from './DropDownAuthMenu.js';
 
 function NavBarToggler() {
     return(
@@ -14,7 +14,13 @@ function NavBarToggler() {
     )
 }
 class NavBar extends React.PureComponent{
+    constructor(props){
+        super(props);
+        this.DropDownAuthMenu = React.lazy(()=>import('./DropDownAuthMenu.js'));
+    }
     render() {
+        //debugger;
+        let DropDownAuthMenu = this.DropDownAuthMenu;
         let NavElements=this.props.MainMenu.map(data=><NavElement key={data.id} id={data.id} href={data.href} name={data.name} submenu={data.submenu}/>);
         return(
           <Fragment>
@@ -30,9 +36,10 @@ class NavBar extends React.PureComponent{
                           <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               {this.props.LoginMenu.signin}
                           </button>
-                          <DropDownAuthMenu isAuthorized={this.props.isAuthorized} LoginMenu={this.props.LoginMenu}
-                                            AdminMenu={this.props.AdminMenu} onRememberInputClick={this.props.onRememberInputClick} handleLoginSubmit={this.props.handleLoginSubmit}
-                          isRememberChecked={this.props.isRememberChecked}/>
+                          <Suspense fallback={<div>Loading...</div>}>
+                                <DropDownAuthMenu {...this.props}/>
+                          </Suspense>
+
                       </div>
                   </div>
               </nav>

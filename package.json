@@ -1,4 +1,5 @@
 {
+  "homepage": "http://localhost/build",
   "name": "frontend",
   "version": "0.1.0",
   "main": "index.js",
@@ -22,15 +23,16 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && rm -r /var/www/schoolsite/build && mv build /var/www/schoolsite/",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "production": "webpack -p --progress"
+    "production": "webpack -p --progress --display-modules"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-proposal-private-methods": "^7.4.4",
+    "@babel/polyfill": "^7.4.4",
     "@babel/preset-env": "latest",
     "@babel/preset-es2015": "^7.0.0-beta.53",
     "@babel/preset-react": "^7.0.0",

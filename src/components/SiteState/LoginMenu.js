@@ -4,7 +4,8 @@ let LoginMenu = {
     password:'Пароль',
     remember:'Запомнить меня',
     showpassword:'Показать пароль',
-    signin:'Войти'
+    signin:'Войти',
+
 };
 
 export default LoginMenu;

@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-class ChildElement extends React.PureComponent{
+export class ChildElement extends React.PureComponent{
 
     render() {
 
@@ -12,7 +12,7 @@ class ChildElement extends React.PureComponent{
         }
 
 }
-class NavElement extends React.PureComponent{
+export default class NavElement extends React.PureComponent{
     constructor(props){
         super(props);
         this.state={}
@@ -72,4 +72,4 @@ class NavElement extends React.PureComponent{
         }
     }
 }
-export default NavElement;
+//export default NavElement;

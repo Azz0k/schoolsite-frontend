@@ -1,11 +1,24 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App.js';
-//import * as serviceWorker from './serviceWorker';
+import ReactDom from 'react-dom';
+import App from './components/app/app';
+import {Provider } from 'react-redux';
+import {BrowserRouter as Router, Switch,Route} from 'react-router-dom';
+import ErrorBoundary from './components/error-boundry';
+import SchoolSiteService from './services/schoolsite-service';
+import {SchoolSiteServiceProvider} from './components/schoolsite-service-context';
+import store from './store';
 
-ReactDOM.render(<React.StrictMode><App /></React.StrictMode>, document.getElementById('root'));
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-//serviceWorker.unregister();
+const schoolSiteService = new SchoolSiteService();
+
+ReactDom.render(
+    <Provider store={store}>
+        <ErrorBoundary>
+            <SchoolSiteServiceProvider value = {schoolSiteService}>
+                <Router>
+                    <App/>
+                </Router>
+            </SchoolSiteServiceProvider>
+        </ErrorBoundary>
+    </Provider>
+    , document.getElementById('root'));

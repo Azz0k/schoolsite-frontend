@@ -141,12 +141,12 @@ class DropDownAuthMenu extends React.PureComponent{
         return(
             <div className="dropdown-menu dropdown-menu-right" ref={this.divRef}>
                 <form className="px-4 py-3 needs-validation was-validated" id="ToggleDropdown" action="" noValidate={true}>
-                    <DropDownFormUsername textlabel={this.props.LoginMenu.email} handlerChange={this.handleChangeFields} UsernameValidationRef={this.props.UsernameValidationRef}/>
-                    <DropdownFormPassword placeholder={this.props.LoginMenu.password} show={this.state.showPassword} handlerChange={this.handleChangeFields}/>
-                    <DropDownPasswordCheck onPasswordInputClick={this.showPasswordClick} showpassword={this.props.LoginMenu.showpassword}/>
-                    <DropDownRememberCheck onRememberInputClick={this.props.onRememberInputClick} remember={this.props.LoginMenu.remember} isRememberChecked={this.props.isRememberChecked}/>
+                    <DropDownFormUsername textlabel={this.props.loginMenu.email} handlerChange={this.handleChangeFields} UsernameValidationRef={this.props.UsernameValidationRef}/>
+                    <DropdownFormPassword placeholder={this.props.loginMenu.password} show={this.state.showPassword} handlerChange={this.handleChangeFields}/>
+                    <DropDownPasswordCheck onPasswordInputClick={this.showPasswordClick} showpassword={this.props.loginMenu.showpassword}/>
+                    <DropDownRememberCheck onRememberInputClick={this.props.onRememberInputClick} remember={this.props.loginMenu.remember} isRememberChecked={this.props.isRememberChecked}/>
 
-                    <button type="submit" className="btn btn-primary" id="submit">{this.props.LoginMenu.signin}</button>
+                    <button type="submit" className="btn btn-primary" id="submit">{this.props.loginMenu.signin}</button>
                 </form>
 
             </div>

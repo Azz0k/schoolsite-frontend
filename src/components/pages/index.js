@@ -1,8 +1,8 @@
-import Admin from "./Admin";
-import Root from "./Root";
-import Error404 from "./Error404";
+import Admin from "./admin";
+import Container from "./container";
+import Error404 from "./error404";
 export {
   Admin,
-  Root,
+  Container,
   Error404
 };

@@ -1,12 +1,12 @@
 
 
-const test= (testState) => {
+const mainMenuLoaded= (mainMenu) => {
     return {
-        type:'TEST',
-        payload: testState
+        type:'MAINMENU_LOADED',
+        payload: mainMenu
     }
 };
 
 export {
-    test
+    mainMenuLoaded
 };

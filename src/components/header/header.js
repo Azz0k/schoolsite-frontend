@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import './Header.css';
+import './header.css';
 
 function Header() {
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import './Container.css';
+import './container.css';
 
-function Container() {
+const Container = () => {
     return(
         <div className="container-fluid" >
             <div className="row">
@@ -14,5 +14,5 @@ function Container() {
             </div>
         </div>
     )
-}
+};
 export default Container;

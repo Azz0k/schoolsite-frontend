@@ -2,21 +2,15 @@ import React from 'react';
 
 
 export class ChildElement extends React.PureComponent{
-
     render() {
-
             return(
-                //<li className="dropdown-item"><a href={this.props.href}>{this.props.name}</a></li>
-                <a className="dropdown-item" href={this.props.href}>{this.props.name}</a>
+                 <a className="dropdown-item" href={this.props.href}>{this.props.name}</a>
             )
         }
 
 }
-export default class NavElement extends React.PureComponent{
-    constructor(props){
-        super(props);
-        this.state={}
-    }
+export default class NavElement extends React.PureComponent {
+
     SingeElement(){
         return (
             <li className="nav-item">

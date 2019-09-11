@@ -1,28 +1,29 @@
+/* eslint-disable*/
 const testMainMenu = [
-    {id:'1',
+    { id: '1',
         name:'Главная',
         href: '#',
         submenu:[]
     },
-    {id:'2',
-        name:'Сведения об образовательной организации',
+    { id: '2',
+        name: 'Сведения об образовательной организации',
         href: '#',
-        submenu:[
-            {id: '2-1',
-                name:'Основные сведения',
+        submenu: [
+            { id: '2-1',
+                name: 'Основные сведения',
                 href: '#',
-                submenu:[]
+                submenu: []
             },
-            {id:'2-2',
-                name:'Структура и органы управления образовательной организацией',
+            { id: '2-2',
+                name: 'Структура и органы управления образовательной организацией',
                 href: '#',
-                submenu:[]
+                submenu: []
             },
-            {id:'2-3',
-                name:'Документы',
+            { id:'2-3',
+                name: 'Документы',
                 href: '#',
-                submenu:[
-                    {id:'2-3-1',
+                submenu: [
+                    { id:'2-3-1',
                         name:'Еще что-то',
                         href: '#',
                         submenu:[]
@@ -30,7 +31,7 @@ const testMainMenu = [
 
                 ]
             },
-            {id:'2-4',
+            { id:'2-4',
                 name:'Образование',
                 href: '#',
                 submenu:[]
@@ -64,4 +65,5 @@ const testMainMenu = [
         submenu:[]
     },
 ];
+
 export default testMainMenu;

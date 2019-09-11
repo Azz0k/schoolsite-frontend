@@ -1,2 +1,2 @@
-import WithSchoolSiteService from "./with-schoolsite-service-context";
-export {WithSchoolSiteService};
+import WithSchoolSiteService from './with-schoolsite-service-context.js';
+export { WithSchoolSiteService };

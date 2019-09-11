@@ -1,12 +1,8 @@
-
-
-const mainMenuLoaded= (mainMenu) => {
+const mainMenuLoaded = mainMenu => {
     return {
-        type:'MAINMENU_LOADED',
-        payload: mainMenu
-    }
+        type: 'MAINMENU_LOADED',
+        payload: mainMenu,
+    };
 };
 
-export {
-    mainMenuLoaded
-};
+export { mainMenuLoaded };

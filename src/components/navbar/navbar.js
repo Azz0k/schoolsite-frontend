@@ -28,9 +28,9 @@ class NavBar extends React.PureComponent {
         );
     }
     render() {
-        let { mainMenu, loginMenu } = this.props;
-        let DropDownAuthMenu = this.DropDownAuthMenu;
-        let NavElements = mainMenu.map(data => (
+        const { mainMenu, loginMenu } = this.props;
+        const DropDownAuthMenu = this.DropDownAuthMenu;
+        const NavElements = mainMenu.map(data => (
             <NavElement
                 key={data.id}
                 id={data.id}
@@ -63,7 +63,7 @@ class NavBar extends React.PureComponent {
                                 {loginMenu.signin}
                             </button>
                             <Suspense fallback={<div>Loading...</div>}>
-                                <DropDownAuthMenu {...this.props} />
+                                <DropDownAuthMenu />
                             </Suspense>
                         </div>
                     </div>
@@ -73,18 +73,9 @@ class NavBar extends React.PureComponent {
     }
 }
 
-const mapStateToProps = ({
-    isAuthorized,
-    isRememberChecked,
-    mainMenu,
-    adminMenu,
-    loginMenu,
-}) => {
+const mapStateToProps = ({ mainMenu, loginMenu }) => {
     return {
-        isAuthorized,
-        isRememberChecked,
         mainMenu,
-        adminMenu,
         loginMenu,
     };
 };

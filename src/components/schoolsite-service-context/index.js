@@ -1,2 +1,5 @@
-import {SchoolSiteServiceConsumer,SchoolSiteServiceProvider} from './schoolsite-service-context';
-export {SchoolSiteServiceConsumer,SchoolSiteServiceProvider};
+import {
+    SchoolSiteServiceConsumer,
+    SchoolSiteServiceProvider,
+} from './schoolsite-service-context.js';
+export { SchoolSiteServiceConsumer, SchoolSiteServiceProvider };

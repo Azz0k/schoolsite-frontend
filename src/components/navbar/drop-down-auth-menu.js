@@ -1,33 +1,45 @@
 /* eslint-disable*/
 import React from 'react';
 import $ from 'jquery';
+import { connect } from 'react-redux';
+import { handleRememberChecked , handleChangeLoginForm } from '../../actions';
 
-class DropdownFormPassword extends React.PureComponent{
+class DropdownFormPassword extends React.PureComponent {
     render() {
-        return(
-            <div className="form-group">
-                <input type={this.props.show?'text':'password'} className="form-control" name="password"
-                       id="exampleDropdownFormPassword1" placeholder={this.props.placeholder} onChange={event => this.props.handlerChange(event)}></input>
+        const { show, placeholder } = this.props;
+        return (
+            <div className='form-group'>
+                <input type={ show?'text':'password' } 
+                       className='form-control' 
+                       name='password'
+                       id='exampleDropdownFormPassword1' 
+                       placeholder={ placeholder }
+                       onChange={ event => this.props.handlerChange(event) }
+                >
+                </input>
             </div>
-        )
+        );
     }
-
 }
+
 class DropDownFormUsername extends React.PureComponent{
     render() {
         return (
-            <div className="form-group">
-                <label htmlFor="exampleDropdownFormEmail1">{this.props.textlabel}</label>
-                <input type="email"
-                       className="form-control"
-                       id="exampleDropdownFormEmail1"
-                       name="username"
-                       placeholder="email@example.com"
-                       onChange={event => this.props.handlerChange(event)}
-
-                ></input>
-                <div className="invalid-feedback" ref={this.props.UsernameValidationRef}>
-
+            <div className='form-group'>
+                <label htmlFor='exampleDropdownFormEmail1'>
+                    { this.props.textlabel }
+                </label>
+                <input type='email'
+                       className='form-control'
+                       id='exampleDropdownFormEmail1'
+                       name='username'
+                       placeholder='email@example.com'
+                       onChange={ event => this.props.handlerChange(event) }
+                >
+                </input>
+                <div className='invalid-feedback'
+                     ref={ this.props.UsernameValidationRef }
+                >
                 </div>
             </div>
         )
@@ -46,9 +58,9 @@ class DropDownPasswordCheck extends React.PureComponent{
 
     render(){
         return(
-            <div className="form-check">
-                <input type="checkbox" className="form-check-input" id="dropdownCheck" onClick={this.handleClick}></input>
-                <label className="form-check-label" htmlFor="dropdownCheck">
+            <div className='form-check'>
+                <input type='checkbox' className='form-check-input' id='dropdownCheck' onClick={this.handleClick}></input>
+                <label className='form-check-label' htmlFor='dropdownCheck'>
                     {this.props.showpassword}
                 </label>
             </div>
@@ -67,9 +79,9 @@ class  DropDownRememberCheck extends React.PureComponent{
     }
     render() {
         return(
-            <div className="form-check">
-                <input type="checkbox" className="form-check-input" id="rememberCheck" onChange={this.rememberCheckClick} value="" checked={this.props.isRememberChecked}></input>
-                <label className="form-check-label" htmlFor="rememberCheck">
+            <div className='form-check'>
+                <input type='checkbox' className='form-check-input' id='rememberCheck' onChange={this.rememberCheckClick} value='' checked={this.props.isRememberChecked}></input>
+                <label className='form-check-label' htmlFor='rememberCheck'>
                     {this.props.remember}
                 </label>
 
@@ -85,8 +97,8 @@ class DropDownAuthMenu extends React.PureComponent{
         this.state = {
             showPassword:false,
             fields:{
-                username:"",
-                password:""
+                username:'',
+                password:''
             }
         };
         this.divRef = React.createRef();
@@ -103,18 +115,18 @@ class DropDownAuthMenu extends React.PureComponent{
     //привязываем обработчик нажатий на логин форму. (чтобы не закрывалась при лкм)
     componentDidMount() {
         if (!this.props.isAuthorized)
-            $(this.divRef.current).on("click.bs.dropdown", this.buttonClick);
+            $(this.divRef.current).on('click.bs.dropdown', this.buttonClick);
         //console.log(this.usernameRef.current);
 
     }
 
     //обработчик событий нажатия. Нужен, чтобы форма не закрывалась при кликах. Работает только на jquery из-за бутстрапа
     buttonClick(event){
-        if (event.target.tagName ==="FORM" || event.target.tagName ==="LABEL" || event.target.id ==="submit") {
+        if (event.target.tagName ==='FORM' || event.target.tagName ==='LABEL' || event.target.id ==='submit') {
             event.preventDefault();//если клацнули на ^ то останавливаем всплытие
             event.stopPropagation();
         }
-        if (event.target.id ==="submit")   //обработчик кнопки Войти, передаем состояние в App
+        if (event.target.id ==='submit')   //обработчик кнопки Войти, передаем состояние в App
             this.props.handleLoginSubmit(this.state.fields);
  }
 
@@ -127,36 +139,48 @@ class DropDownAuthMenu extends React.PureComponent{
     //сохраняем значения полей ввода в логин форме
     handleChangeFields(event){
         event = event.nativeEvent;
-        let stateCopy = Object.assign({},this.state);
-        stateCopy.fields[event.target.name] = event.target.value;
-        this.setState(stateCopy);
+        this.props.handleChangeLoginForm(event.target.value, event.target.name);
     }
 
     //обработчик кнопки показать пароль
     showPasswordClick(){
-       this.setState((state)=>({showPassword:!state.showPassword}));
+       this.setState(state => ({showPassword:!state.showPassword}));
     }
 
     renderNonAuthorized(){
-
+        const { loginMenu, loginForm } = this.props;
         return(
-            <div className="dropdown-menu dropdown-menu-right" ref={this.divRef}>
-                <form className="px-4 py-3 needs-validation was-validated" id="ToggleDropdown" action="" noValidate={true}>
-                    <DropDownFormUsername textlabel={this.props.loginMenu.email} handlerChange={this.handleChangeFields} UsernameValidationRef={this.props.UsernameValidationRef}/>
-                    <DropdownFormPassword placeholder={this.props.loginMenu.password} show={this.state.showPassword} handlerChange={this.handleChangeFields}/>
-                    <DropDownPasswordCheck onPasswordInputClick={this.showPasswordClick} showpassword={this.props.loginMenu.showpassword}/>
-                    <DropDownRememberCheck onRememberInputClick={this.props.onRememberInputClick} remember={this.props.loginMenu.remember} isRememberChecked={this.props.isRememberChecked}/>
-
-                    <button type="submit" className="btn btn-primary" id="submit">{this.props.loginMenu.signin}</button>
+            <div className='dropdown-menu dropdown-menu-right' ref={this.divRef}>
+                <form className='px-4 py-3 needs-validation was-validated' id='ToggleDropdown' action='' noValidate={true}>
+                    <DropDownFormUsername
+                        textlabel={ loginMenu.email }
+                        handlerChange={this.handleChangeFields}
+                        UsernameValidationRef={this.props.UsernameValidationRef}
+                    />
+                    <DropdownFormPassword
+                        placeholder={ loginMenu.password }
+                        show={ this.state.showPassword }
+                        handlerChange={ this.handleChangeFields }
+                    />
+                    <DropDownPasswordCheck
+                        onPasswordInputClick={ this.showPasswordClick }
+                        showpassword={loginMenu.showpassword}
+                    />
+                    <DropDownRememberCheck
+                        onRememberInputClick={this.props.handleRememberChecked}
+                        remember={loginMenu.remember}
+                        isRememberChecked={ loginForm.isRememberChecked }
+                    />
+                    <button type='submit' className='btn btn-primary' id='submit'>{this.props.loginMenu.signin}</button>
                 </form>
 
             </div>
         );
     }
     renderAuthorized(){//дописать
-        let buttons = this.props.AdminMenu.map(data=><button className="dropdown-item" type="button" key={data.id} id={data.id} onClick={this.handleLoginMenuClick}>{data.name}</button>);
+        let buttons = this.props.adminMenu.map(data=><button className='dropdown-item' type='button' key={data.id} id={data.id} onClick={this.handleLoginMenuClick}>{data.name}</button>);
         return (
-            <div className="dropdown-menu dropdown-menu-right">
+            <div className='dropdown-menu dropdown-menu-right'>
                 {buttons}
             </div>
         );
@@ -167,4 +191,11 @@ class DropDownAuthMenu extends React.PureComponent{
     }
 
 }
-export default DropDownAuthMenu;
+
+const mapStateToPropsDropDownMenu = ({ isAuthorized, adminMenu, loginMenu, loginForm }) => {
+    return { isAuthorized, adminMenu, loginMenu, loginForm };
+};
+const mapDispatchToPropsDropDownMenu = { handleRememberChecked, handleChangeLoginForm };
+
+
+export default connect(mapStateToPropsDropDownMenu, mapDispatchToPropsDropDownMenu)(DropDownAuthMenu);

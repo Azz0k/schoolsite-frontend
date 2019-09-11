@@ -48,7 +48,7 @@ class NavBar extends React.PureComponent {
                 >
                     <NavBarToggler />
                     <div
-                        className='collapse navbar-collapse '
+                        className='collapse navbar-collapse'
                         id='navbarSupportedContent'
                     >
                         <ul className='navbar-nav mr-auto'>{NavElements}</ul>
@@ -73,10 +73,10 @@ class NavBar extends React.PureComponent {
     }
 }
 
-const mapStateToProps = ({ mainMenu, loginMenu }) => {
+const mapStateToPropsNavBar = ({ mainMenu, loginMenu }) => {
     return {
         mainMenu,
         loginMenu,
     };
 };
-export default connect(mapStateToProps)(NavBar);
+export default connect(mapStateToPropsNavBar)(NavBar);

@@ -27,6 +27,9 @@ class NavBar extends React.PureComponent {
             import('./drop-down-auth-menu.js'),
         );
     }
+
+    handleButtonClick = () => {};
+
     render() {
         const { mainMenu, loginMenu } = this.props;
         const DropDownAuthMenu = this.DropDownAuthMenu;
@@ -39,7 +42,6 @@ class NavBar extends React.PureComponent {
                 submenu={data.submenu}
             />
         ));
-
         return (
             <Fragment>
                 <nav
@@ -52,13 +54,14 @@ class NavBar extends React.PureComponent {
                         id='navbarSupportedContent'
                     >
                         <ul className='navbar-nav mr-auto'>{NavElements}</ul>
-                        <div className='btn-group'>
+                        <div className='btn-group show-menu'>
                             <button
                                 type='button'
                                 className='btn btn-secondary dropdown-toggle'
                                 data-toggle='dropdown'
                                 aria-haspopup='true'
                                 aria-expanded='false'
+                                onClick={this.handleButtonClick}
                             >
                                 {loginMenu.signin}
                             </button>

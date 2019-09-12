@@ -12,6 +12,8 @@ const initialState = {
         username: '',
         password: '',
         isRememberChecked: true,
+        usernameValidation: '',
+        passwordValidation: '',
     },
 };
 
@@ -33,7 +35,7 @@ const reducer = (state = initialState, action) => {
             };
         }
         case 'LOGIN_FORM_ONCHANGE': {
-            let { name , value } = action.payload;
+            let { name, value } = action.payload;
             return {
                 ...state,
                 loginForm: {

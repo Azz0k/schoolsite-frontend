@@ -1,5 +1,6 @@
+import testMainMenu from '../reducers/test-main-menu';
 export default class SchoolSiteService {
-    getTestArray(){
-        return [];
+    async getNavBar() {
+        return testMainMenu;
     }
 }

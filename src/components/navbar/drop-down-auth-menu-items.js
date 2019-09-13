@@ -1,6 +1,6 @@
 import React from 'react';
 
-class DropdownFormInput extends React.PureComponent {
+class DropDownFormInput extends React.PureComponent {
     render() {
         const {
             type,
@@ -28,56 +28,31 @@ class DropdownFormInput extends React.PureComponent {
     }
 }
 
-class DropDownPasswordCheck extends React.PureComponent {
-    handleClick = () => {
-        this.props.showPasswordClick();
-    };
-
-    render() {
-        const { showpassword } = this.props;
-        return (
-            <div className='form-check'>
-                <input
-                    type='checkbox'
-                    className='form-check-input'
-                    id='dropdownCheck'
-                    onClick={this.handleClick}
-                ></input>
-                <label className='form-check-label' htmlFor='dropdownCheck'>
-                    {showpassword}
-                </label>
-            </div>
-        );
-    }
-}
-
-class DropDownRememberCheck extends React.PureComponent {
+class DropDownFormCheck extends React.PureComponent {
     render() {
         const {
-            handleRememberChecked,
-            isRememberChecked,
-            remember,
+            handleChecked = () => {},
+            isChecked = false,
+            textLabel = '',
+            value = '',
+            name,
         } = this.props;
         return (
             <div className='form-check'>
                 <input
                     type='checkbox'
                     className='form-check-input'
-                    id='rememberCheck'
-                    onChange={handleRememberChecked}
-                    value=''
-                    checked={isRememberChecked}
+                    id={name}
+                    onChange={handleChecked}
+                    value={value}
+                    checked={isChecked}
                 ></input>
-                <label className='form-check-label' htmlFor='rememberCheck'>
-                    {remember}
+                <label className='form-check-label' htmlFor={name}>
+                    {textLabel}
                 </label>
             </div>
         );
     }
 }
 
-export {
-    DropDownRememberCheck,
-    DropDownPasswordCheck,
-    DropdownFormInput,
-};
+export { DropDownFormCheck, DropDownFormInput };

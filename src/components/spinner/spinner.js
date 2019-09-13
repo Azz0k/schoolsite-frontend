@@ -1,7 +1,7 @@
 import React from 'react';
-
+import './spinner.css';
 const Spinner = () => {
-    return <div>Loading...</div>;
+    return <div className='lds-dual-ring'></div>;
 };
 
-export default React.memo(Spinner);
+export default Spinner;

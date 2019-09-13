@@ -8,8 +8,8 @@ const App = () => {
     return (
         <React.Fragment>
             <Header />
+            <NavBar />
             <Switch>
-                <NavBar />
                 <Route path='/admin' component={Admin} exact />
                 <Route path='/' component={Container} exact />
                 <Route component={Error404} />

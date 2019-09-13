@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { handleRememberChecked, handleChangeLoginForm } from '../../actions';
 import {
-    DropDownPasswordCheck,
-    DropDownRememberCheck,
-    DropdownFormInput,
+    DropDownFormInput,
+    DropDownFormCheck,
 } from './drop-down-auth-menu-items';
 
 class DropDownAuthMenu extends React.PureComponent {
@@ -32,9 +31,14 @@ class DropDownAuthMenu extends React.PureComponent {
     };
 
     renderNonAuthorized() {
-        const { loginMenu, loginForm } = this.props;
+        const {
+            loginMenu,
+            loginForm,
+            handleRememberChecked,
+            className = 'dropdown-menu dropdown-menu-right',
+        } = this.props;
         return (
-            <div className='dropdown-menu dropdown-menu-right'>
+            <div className={className}>
                 <form
                     className='px-4 py-3 needs-validation was-validated'
                     action=''
@@ -42,7 +46,7 @@ class DropDownAuthMenu extends React.PureComponent {
                     noValidate={true}
                     onSubmit={this.handleSubmit}
                 >
-                    <DropdownFormInput
+                    <DropDownFormInput
                         type='email'
                         textLabel={loginMenu.email}
                         name='username'
@@ -50,21 +54,24 @@ class DropDownAuthMenu extends React.PureComponent {
                         placeholder='email@example.com'
                         validation={loginForm.usernameValidation}
                     />
-                    <DropdownFormInput
+                    <DropDownFormInput
                         type={this.state.showPassword ? 'text' : 'password'}
                         name='password'
                         handlerChange={this.handleChangeFields}
                         placeholder={loginMenu.password}
                         validation={loginForm.passwordValidation}
                     />
-                    <DropDownPasswordCheck
-                        showPasswordClick={this.showPasswordClick}
-                        showpassword={loginMenu.showpassword}
+                    <DropDownFormCheck
+                        handleChecked={this.showPasswordClick}
+                        textLabel={loginMenu.showpassword}
+                        isChecked={this.state.showPassword}
+                        name='ShowPassword'
                     />
-                    <DropDownRememberCheck
-                        handleRememberChecked={this.props.handleRememberChecked}
-                        remember={loginMenu.remember}
-                        isRememberChecked={loginForm.isRememberChecked}
+                    <DropDownFormCheck
+                        handleChecked={handleRememberChecked}
+                        textLabel={loginMenu.remember}
+                        isChecked={loginForm.isRememberChecked}
+                        name='RememberPassword'
                     />
                     <button
                         type='submit'
@@ -78,6 +85,7 @@ class DropDownAuthMenu extends React.PureComponent {
         );
     }
     renderAuthorized() {
+        const { className = 'dropdown-menu dropdown-menu-right' } = this.props;
         let buttons = this.props.adminMenu.map(data => (
             <button
                 className='dropdown-item'
@@ -90,7 +98,7 @@ class DropDownAuthMenu extends React.PureComponent {
             </button>
         ));
         return (
-            <div className='dropdown-menu dropdown-menu-right'>{buttons}</div>
+            <div className={className}>{buttons}</div>
         );
     }
     render() {

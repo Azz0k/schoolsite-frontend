@@ -16,7 +16,7 @@ class DropDownFormInput extends React.PureComponent {
                 {isVisibleLabel && <label htmlFor={name}>{textLabel} </label>}
                 <input
                     type={type}
-                    className='form-control'
+                    className='form-control is-invalid'
                     id={name}
                     name={name}
                     placeholder={placeholder}

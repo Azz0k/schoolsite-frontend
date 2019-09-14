@@ -1,8 +1,9 @@
 import React from 'react';
 import { DropDownAuthMenu } from '../../components/navbar/';
 import './admin.css';
+import { connect } from 'react-redux';
 
-const Admin = () => {
+const Admin = ({ isAuthorized }) => {
     return (
         <div className='container-fluid'>
             <div className='row'>
@@ -10,10 +11,11 @@ const Admin = () => {
                     <h6>вертикальное меню</h6>
                 </div>
                 <div className='col-sm-8'>
-                    <DropDownAuthMenu className='admin' />
+                    {!isAuthorized && <DropDownAuthMenu className='admin' />}
                 </div>
             </div>
         </div>
     );
 };
-export default Admin;
+
+export default connect(({ isAuthorized }) => ({ isAuthorized }))(Admin);

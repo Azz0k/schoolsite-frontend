@@ -15,5 +15,29 @@ const handleChangeLoginForm = (value, name) => {
         payload: { value, name },
     };
 };
+const loginFormValidated = (usernameValidation, passwordValidation) => {
+    return {
+        type: 'LOGIN_FORM_VALIDATED',
+        payload: { usernameValidation, passwordValidation },
+    };
+};
+const JWTValidated = (jwt, storage) => {
+    return {
+        type: 'JWT_VALIDATED',
+        payload: { jwt, storage },
+    };
+};
+const logout = () => {
+    return {
+        type: 'LOGOUT',
+    };
+};
 
-export { mainMenuLoaded, handleRememberChecked, handleChangeLoginForm };
+export {
+    mainMenuLoaded,
+    handleRememberChecked,
+    handleChangeLoginForm,
+    loginFormValidated,
+    JWTValidated,
+    logout,
+};

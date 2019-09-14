@@ -10,6 +10,7 @@ import store from './store';
 
 const schoolSiteService = new SchoolSiteService();
 
+
 ReactDom.render(
     <Provider store={store}>
         <ErrorBoundary>

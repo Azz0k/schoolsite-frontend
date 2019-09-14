@@ -1,6 +1,5 @@
 import React from 'react';
 import './container.css';
-import Spinner from '../spinner';
 
 const Container = () => {
     return (
@@ -10,7 +9,7 @@ const Container = () => {
                     <h6>вертикальное меню</h6>
                 </div>
                 <div className='col-sm-8'>
-                    <Spinner />
+                    <h6> container</h6>
                 </div>
             </div>
         </div>

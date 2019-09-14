@@ -5,6 +5,8 @@ const loginMenu = {
     showpassword: 'Показать пароль',
     signin: 'Войти',
     signInHref: '/admin',
+    usernameValidation: 'Имя пользователя содержит недопустимые символы',
+    passwordValidation: 'Неправильное имя пользователя или пароль',
 };
 
 export default loginMenu;

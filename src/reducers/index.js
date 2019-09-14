@@ -1,11 +1,15 @@
-import testMainMenu from './test-main-menu';
 import adminMenu from './admin-menu';
 import loginMenu from './login-menu';
+import backendApi from './backend-api';
 
 const initialState = {
+    backendApi,
     isAuthorized: false,
     user: null,
-    mainMenu: testMainMenu,
+    mainMenu: {
+        value: [],
+        isLoaded: false,
+    },
     adminMenu: adminMenu,
     loginMenu: loginMenu,
     loginForm: {
@@ -22,7 +26,10 @@ const reducer = (state = initialState, action) => {
         case 'MAINMENU_LOADED': {
             return {
                 ...state,
-                mainMenu: action.payload,
+                mainMenu: {
+                    value: action.payload,
+                    isLoaded: true,
+                },
             };
         }
         case 'REMEMBER_CHECKED': {
@@ -42,6 +49,35 @@ const reducer = (state = initialState, action) => {
                     ...state.loginForm,
                     [name]: value,
                 },
+            };
+        }
+        case 'LOGIN_FORM_VALIDATED': {
+            const { usernameValidation, passwordValidation } = action.payload;
+            return {
+                ...state,
+                loginForm: {
+                    ...state.loginForm,
+                    usernameValidation,
+                    passwordValidation,
+                },
+            };
+        }
+        case 'JWT_VALIDATED': {
+            const { jwt, storage } = action.payload;
+            return {
+                ...state,
+                isAuthorized: true,
+                backendApi: {
+                    ...state.backendApi,
+                    jwt,
+                    storage,
+                },
+            };
+        }
+        case 'LOGOUT': {
+            return {
+                ...initialState,
+                mainMenu: state.mainMenu,
             };
         }
         default:

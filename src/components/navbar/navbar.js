@@ -3,8 +3,8 @@ import NavElement from './nav-element';
 import { connect } from 'react-redux';
 import './navbar.css';
 import { WithSchoolSiteService } from '../hoc';
-import Spinner from '../spinner/spinner';
-//import DropDownAuthMenu from './DropDownAuthMenu.js';
+import { mainMenuLoaded } from '../../actions';
+import SpinnerBoundary from '../spinner/spinner-boundary';
 
 const NavBarToggler = () => {
     return (
@@ -22,11 +22,42 @@ const NavBarToggler = () => {
     );
 };
 
+const NavView = props => {
+    const {
+        NavElements,
+        loginMenu,
+        handleButtonClick,
+        DropDownAuthMenu,
+    } = props;
+    return (
+        <React.Fragment>
+            <NavBarToggler />
+            <div
+                className='collapse navbar-collapse'
+                id='navbarSupportedContent'
+            >
+                <ul className='navbar-nav mr-auto'>{NavElements}</ul>
+                <div className='btn-group show-menu'>
+                    <button
+                        type='button'
+                        className='btn btn-secondary dropdown-toggle'
+                        data-toggle='dropdown'
+                        aria-haspopup='true'
+                        aria-expanded='false'
+                        onClick={handleButtonClick}
+                    >
+                        {loginMenu.signin}
+                    </button>
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <DropDownAuthMenu />
+                    </Suspense>
+                </div>
+            </div>
+        </React.Fragment>
+    );
+};
+
 class NavBar extends React.PureComponent {
-    state = {
-        mainMenu: [],
-        isLoaded: false,
-    };
     constructor(props) {
         super(props);
         this.DropDownAuthMenu = React.lazy(() =>
@@ -39,19 +70,20 @@ class NavBar extends React.PureComponent {
     };
 
     componentDidMount() {
-        const { schoolSiteService } = this.props;
-        schoolSiteService.getNavBar().then(mainMenu => {
-            this.setState(state => ({ mainMenu: mainMenu }));
-            this.setState(state => ({ isLoaded: true }));
-        });
+        const { schoolSiteService, mainMenu } = this.props;
+        if (!mainMenu.isLoaded) {
+            schoolSiteService.getNavBar().then(mainMenu => {
+                this.props.mainMenuLoaded(mainMenu);
+            });
+        }
     }
 
     render() {
-        const { loginMenu } = this.props;
-        const mainMenu = this.state.mainMenu;
+        const { loginMenu, mainMenu } = this.props;
         const DropDownAuthMenu = this.DropDownAuthMenu;
-        if (this.state.isLoaded) {
-            const NavElements = mainMenu.map(data => (
+        let NavElements;
+        if (mainMenu.isLoaded) {
+            NavElements = mainMenu.value.map(data => (
                 <NavElement
                     key={data.id}
                     id={data.id}
@@ -60,45 +92,34 @@ class NavBar extends React.PureComponent {
                     submenu={data.submenu}
                 />
             ));
-            return (
-                <Fragment>
-                    <nav
-                        className='navbar navbar-expand-lg navbar-light bg-light'
-                        id='Menu'
-                    >
-                        <NavBarToggler />
-                        <div
-                            className='collapse navbar-collapse'
-                            id='navbarSupportedContent'
-                        >
-                            <ul className='navbar-nav mr-auto'>
-                                {NavElements}
-                            </ul>
-                            <div className='btn-group show-menu'>
-                                <button
-                                    type='button'
-                                    className='btn btn-secondary dropdown-toggle'
-                                    data-toggle='dropdown'
-                                    aria-haspopup='true'
-                                    aria-expanded='false'
-                                    onClick={this.handleButtonClick}
-                                >
-                                    {loginMenu.signin}
-                                </button>
-                                <Suspense fallback={<div>Loading...</div>}>
-                                    <DropDownAuthMenu />
-                                </Suspense>
-                            </div>
-                        </div>
-                    </nav>
-                </Fragment>
-            );
         }
-        return <Spinner />;
+        return (
+            <Fragment>
+                <nav
+                    className='navbar navbar-expand-lg navbar-light bg-light'
+                    id='Menu'
+                >
+                    <SpinnerBoundary isLoaded={mainMenu.isLoaded}>
+                        <NavView
+                            NavElements={NavElements}
+                            DropDownAuthMenu={DropDownAuthMenu}
+                            loginMenu={loginMenu}
+                            handleButtonClick={this.handleButtonClick}
+                        />
+                    </SpinnerBoundary>
+                </nav>
+            </Fragment>
+        );
     }
 }
 
-const mapStateToPropsNavBar = ({ loginMenu }) => {
-    return { loginMenu };
+const mapStateToPropsNavBar = ({ loginMenu, mainMenu }) => {
+    return { loginMenu, mainMenu };
 };
-export default WithSchoolSiteService(connect(mapStateToPropsNavBar)(NavBar));
+
+export default WithSchoolSiteService(
+    connect(
+        mapStateToPropsNavBar,
+        { mainMenuLoaded },
+    )(NavBar),
+);

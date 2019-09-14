@@ -1,18 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { handleRememberChecked, handleChangeLoginForm } from '../../actions';
+import {
+    handleRememberChecked,
+    handleChangeLoginForm,
+    loginFormValidated,
+    logout,
+} from '../../actions';
 import {
     DropDownFormInput,
     DropDownFormCheck,
 } from './drop-down-auth-menu-items';
+import WithSchoolSiteService from '../hoc/with-schoolsite-service-context';
 
 class DropDownAuthMenu extends React.PureComponent {
     state = { showPassword: false };
 
     //обработчик кнопок AdminMenu - ИСПРАВИТЬ НА РЕДАКС
     handleLoginMenuClick = event => {
-        // this.props.handleLoginMenuClick(event.target.id);
-        event.preventDefault();
+        //event.preventDefault();
+        switch (event.target.id) {
+            case 'Logout': {
+                this.props.schoolSiteService.clearJWT();
+                this.props.logout();
+                break;
+            }
+            default:
+        }
     };
 
     //сохраняем значения полей ввода в логин форме
@@ -27,7 +40,28 @@ class DropDownAuthMenu extends React.PureComponent {
     };
 
     handleSubmit = event => {
+        const {
+            loginForm,
+            loginFormValidated,
+            loginMenu,
+            schoolSiteService,
+        } = this.props;
         event.preventDefault();
+        let pattern = /^[\w-_@.]+$/;
+        if (!pattern.test(loginForm.username)) {
+            loginFormValidated(loginMenu.usernameValidation, '');
+            return false;
+        }
+        if (loginForm.password.length === 0) {
+            loginFormValidated('', loginMenu.passwordValidation);
+            return false;
+        }
+        schoolSiteService.validateUsernamePassword().then(resolve => {
+            if (!resolve) {
+                loginFormValidated('', loginMenu.passwordValidation);
+                return false;
+            }
+        });
     };
 
     renderNonAuthorized() {
@@ -40,14 +74,13 @@ class DropDownAuthMenu extends React.PureComponent {
         return (
             <div className={className}>
                 <form
-                    className='px-4 py-3 needs-validation was-validated'
+                    className='px-4 py-3'
                     action=''
                     method='POST'
-                    noValidate={true}
                     onSubmit={this.handleSubmit}
                 >
                     <DropDownFormInput
-                        type='email'
+                        type='text'
                         textLabel={loginMenu.email}
                         name='username'
                         handlerChange={this.handleChangeFields}
@@ -97,9 +130,7 @@ class DropDownAuthMenu extends React.PureComponent {
                 {data.name}
             </button>
         ));
-        return (
-            <div className={className}>{buttons}</div>
-        );
+        return <div className={className}>{buttons}</div>;
     }
     render() {
         if (this.props.isAuthorized) return this.renderAuthorized();
@@ -118,9 +149,13 @@ const mapStateToPropsDropDownMenu = ({
 const mapDispatchToPropsDropDownMenu = {
     handleRememberChecked,
     handleChangeLoginForm,
+    loginFormValidated,
+    logout,
 };
 
-export default connect(
-    mapStateToPropsDropDownMenu,
-    mapDispatchToPropsDropDownMenu,
-)(DropDownAuthMenu);
+export default WithSchoolSiteService(
+    connect(
+        mapStateToPropsDropDownMenu,
+        mapDispatchToPropsDropDownMenu,
+    )(DropDownAuthMenu),
+);

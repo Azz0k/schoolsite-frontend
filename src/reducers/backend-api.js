@@ -4,7 +4,7 @@ let backendApi = {
     api: '/api/1.0.0',
     storage: null,
     jwt: null,
-    loginUrl: '/login.php?XDEBUG_SESSION_START=13795',
+    loginUrl: '/login.php?XDEBUG_SESSION_START=10956',
     loginHeaders: {
         'Content-Type': 'application/json; charset=UTF-8',
     },

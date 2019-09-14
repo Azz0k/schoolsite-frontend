@@ -21,10 +21,10 @@ const loginFormValidated = (usernameValidation, passwordValidation) => {
         payload: { usernameValidation, passwordValidation },
     };
 };
-const JWTValidated = (jwt, storage) => {
+const JWTValidated = (jwt, storage, user) => {
     return {
         type: 'JWT_VALIDATED',
-        payload: { jwt, storage },
+        payload: { jwt, storage, user },
     };
 };
 const logout = () => {
@@ -32,6 +32,7 @@ const logout = () => {
         type: 'LOGOUT',
     };
 };
+
 
 export {
     mainMenuLoaded,

@@ -58,6 +58,7 @@ export default class NavElement extends React.PureComponent {
                     className='nav-link dropdown-toggle'
                     href={this.props.href}
                     id={this.props.id}
+                    data-toggle='dropdown'
                 >
                     {this.props.name}
                 </a>

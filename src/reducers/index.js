@@ -5,7 +5,10 @@ import backendApi from './backend-api';
 const initialState = {
     backendApi,
     isAuthorized: false,
-    user: null,
+    users: {
+        value: [],
+        isLoaded: false,
+    },
     mainMenu: {
         value: [],
         isLoaded: false,
@@ -67,7 +70,6 @@ const reducer = (state = initialState, action) => {
             const newAdminMenu = state.adminMenu.map(value => {
                 return { ...value, disabled: !rights[value.id] };
             });
-            debugger;
             return {
                 ...state,
                 isAuthorized: true,
@@ -79,15 +81,33 @@ const reducer = (state = initialState, action) => {
                 },
             };
         }
-        case 'LOGOUT': {
-            return {
-                ...initialState,
-                mainMenu: state.mainMenu,
-            };
+        case 'CLICKED_ON_ADMIN_MENU': {
+            const { id, schoolSiteService } = action.payload;
+            return updateOnClickedAdminMenu(state, id, schoolSiteService);
         }
         default:
             return state;
     }
+};
+
+const updateOnClickedAdminMenu = (state, id, schoolSiteService) => {
+    if (id === 'Logout') {
+        schoolSiteService.clearJWT();
+        return {
+            ...initialState,
+            mainMenu: state.mainMenu,
+        };
+    }
+    window.location.href = state.adminMenu.find(element => {
+        return element.id === id;
+    }).href;
+    if (id === 'Users') {// Дописать получение юзеров
+        schoolSiteService.getUsers().then(r => {
+
+        });
+        return state;
+    }
+    return state;
 };
 
 export default reducer;

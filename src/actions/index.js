@@ -27,9 +27,10 @@ const JWTValidated = (jwt, storage, rights) => {
         payload: { jwt, storage, rights },
     };
 };
-const logout = () => {
+const handleClickAdminMenu = (id, schoolSiteService) => {
     return {
-        type: 'LOGOUT',
+        type: 'CLICKED_ON_ADMIN_MENU',
+        payload: { id, schoolSiteService },
     };
 };
 
@@ -39,5 +40,5 @@ export {
     handleChangeLoginForm,
     loginFormValidated,
     JWTValidated,
-    logout,
+    handleClickAdminMenu,
 };

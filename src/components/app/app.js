@@ -10,8 +10,9 @@ const App = () => {
             <Header />
             <NavBar />
             <Switch>
-                <Route path='/admin' component={Admin} exact />
                 <Route path='/' component={Container} exact />
+                <Route path='/admin' component={Admin} exact />
+                <Route path='/admin/:id?' component={Admin} />
                 <Route component={Error404} />
             </Switch>
         </React.Fragment>

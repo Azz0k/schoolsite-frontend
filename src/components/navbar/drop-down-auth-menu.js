@@ -4,7 +4,7 @@ import {
     handleRememberChecked,
     handleChangeLoginForm,
     loginFormValidated,
-    logout,
+    handleClickAdminMenu,
 } from '../../actions';
 import {
     DropDownFormInput,
@@ -18,14 +18,10 @@ class DropDownAuthMenu extends React.PureComponent {
     //обработчик кнопок AdminMenu - ИСПРАВИТЬ НА РЕДАКС
     handleLoginMenuClick = event => {
         //event.preventDefault();
-        switch (event.target.id) {
-            case 'Logout': {
-                this.props.schoolSiteService.clearJWT();
-                this.props.logout();
-                break;
-            }
-            default:
-        }
+        this.props.handleClickAdminMenu(
+            event.target.id,
+            this.props.schoolSiteService,
+        );
     };
 
     //сохраняем значения полей ввода в логин форме
@@ -151,7 +147,7 @@ const mapDispatchToPropsDropDownMenu = {
     handleRememberChecked,
     handleChangeLoginForm,
     loginFormValidated,
-    logout,
+    handleClickAdminMenu,
 };
 
 export default WithSchoolSiteService(

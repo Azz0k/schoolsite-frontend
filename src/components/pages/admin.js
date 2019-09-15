@@ -2,8 +2,9 @@ import React from 'react';
 import { DropDownAuthMenu } from '../../components/navbar/';
 import './admin.css';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
-const Admin = ({ isAuthorized }) => {
+const WholeAdmin = ({ isAuthorized }) => {
     return (
         <div className='container-fluid'>
             <div className='row'>
@@ -17,5 +18,20 @@ const Admin = ({ isAuthorized }) => {
         </div>
     );
 };
+const Users = () => {
+    return <h4>lol users</h4>;
+};
+const Admin = ({ isAuthorized, match }) => {
+    const { id } = match.params;
+    if (id === undefined) {
+        return <WholeAdmin isAuthorized={isAuthorized} />;
+    }
+    if (id === 'users') {
+        return <Users />;
+    }
+    return <h6>{id}</h6>;
+};
 
-export default connect(({ isAuthorized }) => ({ isAuthorized }))(Admin);
+export default withRouter(
+    connect(({ isAuthorized }) => ({ isAuthorized }))(Admin),
+);

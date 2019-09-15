@@ -1,14 +1,13 @@
 import testMainMenu from '../reducers/test-main-menu';
 import { utoa, atou } from '../utils/encode';
 import store from '../store';
-import { JWTValidated, logout } from '../actions';
+import { JWTValidated, handleClickAdminMenu } from '../actions';
 
 class SchoolSiteService {
     constructor() {
         this.checkJWT().then(resolve => {
             if (!resolve) {
-                this.clearJWT();
-                store.dispatch(logout());
+                store.dispatch(handleClickAdminMenu('Logout', this));
             }
         });
     }
@@ -96,6 +95,23 @@ class SchoolSiteService {
         let storage = sessionStorage;
         if (isRememberChecked) storage = localStorage;
         return this.manageJWT(response, storage);
+    }
+
+    async getUsers() {
+        const { backendApi } = store.getState();
+        const jwt = backendApi.jwt;
+        let AuthHeader = { Authorization: 'Bearer ' + jwt };
+        const url = backendApi.host + backendApi.api + backendApi.usersUrl;
+        let response;
+        try {
+            response = await backendApi.app.get(url);
+        } catch (e) {
+            return false;
+        }
+        if (response.status === 200) {
+            return JSON.parse(response.data);
+        }
+        return false;
     }
 
     async getNavBar() {

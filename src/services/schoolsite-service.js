@@ -18,10 +18,25 @@ class SchoolSiteService {
         localStorage.removeItem('jwt');
     };
 
+    mapJWTtoRights = jwt => {
+        let [, rights] = jwt.split('.');
+        rights = JSON.parse(atou(rights));
+        rights = {
+            Configuration: !!+rights.Configuration,
+            Users: !!+rights.Users,
+            Menu: !!+rights.Menu,
+            Materials: !!+rights.Materials,
+            Logout: true,
+        };
+        return rights;
+    };
+
     manageJWT = (response, storage) => {
         if (response.status === 200) {
             const jwt = response.data['jwt'];
-            store.dispatch(JWTValidated(jwt, storage));
+            store.dispatch(
+                JWTValidated(jwt, storage, this.mapJWTtoRights(jwt)),
+            );
             storage.setItem('jwt', jwt);
             return true;
         }

@@ -125,6 +125,7 @@ class DropDownAuthMenu extends React.PureComponent {
                 type='button'
                 key={data.id}
                 id={data.id}
+                disabled={data.disabled}
                 onClick={this.handleLoginMenuClick}
             >
                 {data.name}

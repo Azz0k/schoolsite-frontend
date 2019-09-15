@@ -63,10 +63,15 @@ const reducer = (state = initialState, action) => {
             };
         }
         case 'JWT_VALIDATED': {
-            const { jwt, storage } = action.payload;
+            const { jwt, storage, rights } = action.payload;
+            const newAdminMenu = state.adminMenu.map(value => {
+                return { ...value, disabled: !rights[value.id] };
+            });
+            debugger;
             return {
                 ...state,
                 isAuthorized: true,
+                adminMenu: newAdminMenu,
                 backendApi: {
                     ...state.backendApi,
                     jwt,

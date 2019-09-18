@@ -104,14 +104,14 @@ class SchoolSiteService {
         const url = backendApi.host + backendApi.api + backendApi.usersUrl;
         let response;
         try {
-            response = await backendApi.app.get(url);
+            response = await backendApi.app.get(url, { headers: AuthHeader });
         } catch (e) {
-            return false;
+            return new Error('Not connected');
         }
         if (response.status === 200) {
-            return JSON.parse(response.data);
+            return response.data;
         }
-        return false;
+        return new Error('Service unavailable');
     }
 
     async getNavBar() {

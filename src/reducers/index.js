@@ -1,6 +1,8 @@
 import adminMenu from './admin-menu';
 import loginMenu from './login-menu';
 import backendApi from './backend-api';
+import { usersLoaded } from '../actions';
+import store from '../store';
 
 const initialState = {
     backendApi,
@@ -82,32 +84,49 @@ const reducer = (state = initialState, action) => {
             };
         }
         case 'CLICKED_ON_ADMIN_MENU': {
-            const { id, schoolSiteService } = action.payload;
-            return updateOnClickedAdminMenu(state, id, schoolSiteService);
+            const { id, value } = action.payload;
+            return updateOnClickedAdminMenu(state, id, value);
+        }
+        case 'USERS_LOADED': {
+            return {
+                ...state,
+                users: {
+                    value: action.payload,
+                    isLoaded: true,
+                },
+            };
         }
         default:
             return state;
     }
 };
 
-const updateOnClickedAdminMenu = (state, id, schoolSiteService) => {
-    if (id === 'Logout') {
-        schoolSiteService.clearJWT();
-        return {
-            ...initialState,
-            mainMenu: state.mainMenu,
-        };
+const updateOnClickedAdminMenu = (state, id, value) => {
+    switch (id) {
+        case 'Logout':
+            return {
+                ...initialState,
+                mainMenu: state.mainMenu,
+            };
+        case 'Users':
+            return {
+                ...state,
+                users: {
+                    value,
+                    isLoaded: true,
+                },
+            };
+        default:
+            return state;
     }
+
+    /*
     window.location.href = state.adminMenu.find(element => {
         return element.id === id;
     }).href;
-    if (id === 'Users') {// Дописать получение юзеров
-        schoolSiteService.getUsers().then(r => {
-
-        });
-        return state;
-    }
     return state;
+
+     */
 };
 
 export default reducer;

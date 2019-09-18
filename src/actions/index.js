@@ -1,3 +1,4 @@
+import store from '../store';
 const mainMenuLoaded = mainMenu => {
     return {
         type: 'MAINMENU_LOADED',
@@ -27,10 +28,17 @@ const JWTValidated = (jwt, storage, rights) => {
         payload: { jwt, storage, rights },
     };
 };
-const handleClickAdminMenu = (id, schoolSiteService) => {
+const handleClickAdminMenu = (id, value) => {
     return {
         type: 'CLICKED_ON_ADMIN_MENU',
-        payload: { id, schoolSiteService },
+        payload: { id, value },
+    };
+};
+
+const usersLoaded = users => {
+    return {
+        type: 'USERS_LOADED',
+        payload: users,
     };
 };
 
@@ -41,4 +49,5 @@ export {
     loginFormValidated,
     JWTValidated,
     handleClickAdminMenu,
+    usersLoaded,
 };

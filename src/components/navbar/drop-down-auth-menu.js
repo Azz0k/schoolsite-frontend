@@ -11,17 +11,33 @@ import {
     DropDownFormCheck,
 } from './drop-down-auth-menu-items';
 import WithSchoolSiteService from '../hoc/with-schoolsite-service-context';
+import store from '../../store';
 
 class DropDownAuthMenu extends React.PureComponent {
     state = { showPassword: false };
 
     //обработчик кнопок AdminMenu - ИСПРАВИТЬ НА РЕДАКС
     handleLoginMenuClick = event => {
+        const { handleClickAdminMenu, schoolSiteService } = this.props;
+        const id = event.target.id;
         //event.preventDefault();
-        this.props.handleClickAdminMenu(
-            event.target.id,
-            this.props.schoolSiteService,
-        );
+        switch (id) {
+            case 'Logout':
+                schoolSiteService.clearJWT();
+                handleClickAdminMenu(id);
+                break;
+            case 'Users':
+                schoolSiteService
+                    .getUsers()
+                    .then(resolve => {
+                        handleClickAdminMenu(id, resolve);
+                    })
+                    .catch(reject => {
+                        console.log(reject);
+                    });
+                break;
+            default:
+        }
     };
 
     //сохраняем значения полей ввода в логин форме

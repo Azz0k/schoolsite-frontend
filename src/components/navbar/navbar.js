@@ -5,6 +5,7 @@ import './navbar.css';
 import { WithSchoolSiteService } from '../hoc';
 import { mainMenuLoaded } from '../../actions';
 import SpinnerBoundary from '../spinner/spinner-boundary';
+import { withRouter } from 'react-router-dom';
 
 const NavBarToggler = () => {
     return (
@@ -66,7 +67,7 @@ class NavBar extends React.PureComponent {
     }
 
     handleButtonClick = () => {
-        window.location.href = this.props.loginMenu.signInHref;
+        this.props.history.push(this.props.loginMenu.signInHref);
     };
 
     componentDidMount() {
@@ -117,9 +118,11 @@ const mapStateToPropsNavBar = ({ loginMenu, mainMenu }) => {
     return { loginMenu, mainMenu };
 };
 
-export default WithSchoolSiteService(
-    connect(
-        mapStateToPropsNavBar,
-        { mainMenuLoaded },
-    )(NavBar),
+export default withRouter(
+    WithSchoolSiteService(
+        connect(
+            mapStateToPropsNavBar,
+            { mainMenuLoaded },
+        )(NavBar),
+    ),
 );

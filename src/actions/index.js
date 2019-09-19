@@ -1,4 +1,3 @@
-import store from '../store';
 const mainMenuLoaded = mainMenu => {
     return {
         type: 'MAINMENU_LOADED',

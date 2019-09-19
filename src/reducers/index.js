@@ -1,8 +1,6 @@
 import adminMenu from './admin-menu';
 import loginMenu from './login-menu';
 import backendApi from './backend-api';
-import { usersLoaded } from '../actions';
-import store from '../store';
 
 const initialState = {
     backendApi,
@@ -105,8 +103,8 @@ const updateOnClickedAdminMenu = (state, id, value) => {
     switch (id) {
         case 'Logout':
             return {
-                ...initialState,
-                mainMenu: state.mainMenu,
+                ...state,
+                isAuthorized: false,
             };
         case 'Users':
             return {

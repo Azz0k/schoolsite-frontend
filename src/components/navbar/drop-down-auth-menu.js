@@ -11,14 +11,19 @@ import {
     DropDownFormCheck,
 } from './drop-down-auth-menu-items';
 import WithSchoolSiteService from '../hoc/with-schoolsite-service-context';
-import store from '../../store';
+import { withRouter } from 'react-router-dom';
 
 class DropDownAuthMenu extends React.PureComponent {
     state = { showPassword: false };
 
     //обработчик кнопок AdminMenu - ИСПРАВИТЬ НА РЕДАКС
     handleLoginMenuClick = event => {
-        const { handleClickAdminMenu, schoolSiteService } = this.props;
+        const {
+            handleClickAdminMenu,
+            schoolSiteService,
+            history,
+            adminMenu,
+        } = this.props;
         const id = event.target.id;
         //event.preventDefault();
         switch (id) {
@@ -38,6 +43,11 @@ class DropDownAuthMenu extends React.PureComponent {
                 break;
             default:
         }
+        history.push(
+            adminMenu.find(el => {
+                return el.id === id;
+            }).href,
+        );
     };
 
     //сохраняем значения полей ввода в логин форме
@@ -151,7 +161,7 @@ class DropDownAuthMenu extends React.PureComponent {
     }
 }
 
-const mapStateToPropsDropDownMenu = ({
+let mapStateToPropsDropDownMenu = ({
     isAuthorized,
     adminMenu,
     loginMenu,
@@ -166,9 +176,11 @@ const mapDispatchToPropsDropDownMenu = {
     handleClickAdminMenu,
 };
 
-export default WithSchoolSiteService(
-    connect(
-        mapStateToPropsDropDownMenu,
-        mapDispatchToPropsDropDownMenu,
-    )(DropDownAuthMenu),
+export default withRouter(
+    WithSchoolSiteService(
+        connect(
+            mapStateToPropsDropDownMenu,
+            mapDispatchToPropsDropDownMenu,
+        )(DropDownAuthMenu),
+    ),
 );

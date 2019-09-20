@@ -18,31 +18,8 @@ class DropDownAuthMenu extends React.PureComponent {
 
     //обработчик кнопок AdminMenu - ИСПРАВИТЬ НА РЕДАКС
     handleLoginMenuClick = event => {
-        const {
-            handleClickAdminMenu,
-            schoolSiteService,
-            history,
-            adminMenu,
-        } = this.props;
+        const { history, adminMenu } = this.props;
         const id = event.target.id;
-        //event.preventDefault();
-        switch (id) {
-            case 'Logout':
-                schoolSiteService.clearJWT();
-                handleClickAdminMenu(id);
-                break;
-            case 'Users':
-                schoolSiteService
-                    .getUsers()
-                    .then(resolve => {
-                        handleClickAdminMenu(id, resolve);
-                    })
-                    .catch(reject => {
-                        console.log(reject);
-                    });
-                break;
-            default:
-        }
         history.push(
             adminMenu.find(el => {
                 return el.id === id;

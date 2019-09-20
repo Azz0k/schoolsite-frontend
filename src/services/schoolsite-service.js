@@ -98,7 +98,7 @@ class SchoolSiteService {
     }
 
     async getUsers() {
-        const { backendApi } = store.getState();
+        const { backendApi, isAuthorized } = store.getState();
         const jwt = backendApi.jwt;
         let AuthHeader = { Authorization: 'Bearer ' + jwt };
         const url = backendApi.host + backendApi.api + backendApi.usersUrl;
@@ -106,12 +106,12 @@ class SchoolSiteService {
         try {
             response = await backendApi.app.get(url, { headers: AuthHeader });
         } catch (e) {
-            return new Error('Not connected');
+            throw new Error(`Not connected! ${isAuthorized} `);
         }
         if (response.status === 200) {
             return response.data;
         }
-        return new Error('Service unavailable');
+        throw new Error('Service unavailable');
     }
 
     async getNavBar() {

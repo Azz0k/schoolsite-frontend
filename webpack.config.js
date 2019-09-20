@@ -1,22 +1,22 @@
 const webpack = require('webpack');
 const path = require('path');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var config = {
     entry: './src/index.js',
 
     output: {
-        path: '/var/www/schoolsite/dist',// path.join(__dirname, '/dist'),'/var/www/schoolsite/dist'
-        filename: '[name].[chunkhash].js'//'index.js',
+        path: '/var/www/schoolsite/dist', // path.join(__dirname, '/dist'),'/var/www/schoolsite/dist'
+        filename: '[name].[chunkhash].js', //'index.js',
     },
 
     devServer: {
         inline: true,
-        port: 8080
+        port: 8080,
     },
     resolveLoader: {
-        modules: [path.join(__dirname, 'node_modules')]
+        modules: [path.join(__dirname, 'node_modules')],
     },
     module: {
         rules: [
@@ -24,22 +24,37 @@ var config = {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
                 use: {
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-env', '@babel/preset-react']
-        }
-      }
-                
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            [
+                                '@babel/preset-env',
+                                {
+                                    debug: true,
+                                    targets: [
+                                        'last 2 chrome versions',
+                                        'last 2 firefox versions',
+                                    ],
+                                },
+                            ],
+                            '@babel/preset-react',
+                        ],
+                    },
+                },
             },
             {
                 test: /\.css$/i,
-                use:  [  'style-loader', MiniCssExtractPlugin.loader, 'css-loader']
+                use: [
+                    'style-loader',
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                ],
             },
             {
                 test: /\.svg$/,
-                loader: 'svg-inline-loader'
-            }
-        ]
+                loader: 'svg-inline-loader',
+            },
+        ],
     },
     plugins: [
         // new ExtractTextPlugin(
@@ -54,7 +69,7 @@ var config = {
             inject: false,
             hash: true,
             template: './src/index.html',
-            filename: 'index.html'
+            filename: 'index.html',
         }),
     ],
     optimization: {
@@ -71,16 +86,16 @@ var config = {
             cacheGroups: {
                 vendors: {
                     test: /[\\/]node_modules[\\/]/,
-                    priority: -10
+                    priority: -10,
                 },
                 default: {
                     minChunks: 2,
                     priority: -20,
-                    reuseExistingChunk: true
-                }
-            }
-        }
-    }
+                    reuseExistingChunk: true,
+                },
+            },
+        },
+    },
 };
 
 module.exports = config;

@@ -1,3 +1,12 @@
-.admin{
+.admin {
     width: 250px;
+}
+
+table {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
+.users-username{
+    width: 10em;
 }

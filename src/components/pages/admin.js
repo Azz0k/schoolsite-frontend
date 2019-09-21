@@ -21,76 +21,89 @@ const WholeAdmin = ({ isAuthorized }) => {
         </div>
     );
 };
+
+const UsersCell = ({ value }) => {
+    return (
+        <td>
+            <input
+                type='text'
+                className='form-control users-input'
+                value={value}
+            />
+        </td>
+    );
+};
+
+const UsersRights = ({ checked, text }) => {
+    const wordChecked = checked ? 'check-' : '';
+    const className = `far fa-${wordChecked}square`;
+    return (
+        <button className='btn btn-outline-success btn-sm '>
+            <i className={className} />
+            {' ' + text}
+        </button>
+    );
+};
+
 const Users = ({ users }) => {
     const rows = users.value.map(data => {
-        return (
-            //<input type='text' className='form-control' value={data.username}/>
-            <tr key={data.id}>
-                <td>
-                    <input
-                        type='text'
-                        className='form-control users-username'
-                        value={data.username}
-                    />
-                </td>
-                <td>
-                    <input
-                        type='text'
-                        className='form-control'
-                        value={data.firstname}
-                    />
-                </td>
-                <td>
-                    <input
-                        type='text'
-                        className='form-control'
-                        value={data.lastname}
-                    />
-                </td>
-                <td>
-                    <input
-                        type='text'
-                        className='form-control'
-                        value={data.email}
-                    />
-                </td>
-                <td>
-                    <input
-                        type='text'
-                        className='form-control'
-                        value={data.description}
-                    />
-                </td>
-                <td></td>
-            </tr>
-        );
+        if (data.deleted === 0) {
+            return (
+                //canconfigure(pin):0
+                // canchangeusers(pin):0
+                // canchangemenu(pin):0
+                // canchangematerials(pin):0
+                // deleted(pin):0
+                // enabled(pin):0
+                <tr key={data.id}>
+                    <UsersCell value={data.username} />
+                    <UsersCell value={data.firstname} />
+                    <UsersCell value={data.lastname} />
+                    <UsersCell value={data.email} />
+                    <UsersCell value={data.description} />
+                    <td>
+                        <UsersRights checked={data.canconfigure} text='конфигурацию'/>
+                        <UsersRights checked={data.canchangeusers} text='пользователей'/>
+                        <UsersRights checked={data.canchangemenu} text='меню' />
+                        <UsersRights checked={data.canchangematerials} text='материалы'/>
+                    </td>
+                    <td>
+                        <UsersRights checked={data.enabled} text='Активен' />
+                        <button className='btn btn-outline-success btn-sm '>
+                            <i className='fas fa-user-slash' />
+                        </button>
+                        <button className='btn btn-outline-success btn-sm '>
+                            <i className='fas fa-key' />
+                        </button>
+                        <button className='btn btn-outline-success btn-sm '>
+                            <i className='far fa-check-circle' />
+                        </button>
+                        <button className='btn btn-outline-success btn-sm '>
+                            <i className='fa fa-undo' />
+                        </button>
+                    </td>
+                </tr>
+            );
+        }
     });
     return (
         <table className='table table-bordered table-hover w-auto table-responsive'>
             <thead>
                 <tr>
-                    <th scope='col'>
-                        Имя пользователя
-                    </th>
-                    <th scope='col'>
-                        Фамилия
-                    </th>
-                    <th scope='col'>
-                        Имя
-                    </th>
-                    <th scope='col'>
-                        E-mail
-                    </th>
-                    <th scope='col'>
-                        Комментарий
-                    </th>
-                    <th scope='col'></th>
+                    <th scope='col'>Имя пользователя</th>
+                    <th scope='col'>Фамилия</th>
+                    <th scope='col'>Имя</th>
+                    <th scope='col'>E-mail</th>
+                    <th scope='col'>Комментарий</th>
+                    <th scope='col'>Может изменять</th>
+                    <th scope='col'>Действия</th>
                 </tr>
             </thead>
             <tbody>{rows}</tbody>
         </table>
     );
 };
+
 const Admin = ({
     isAuthorized,
     match,

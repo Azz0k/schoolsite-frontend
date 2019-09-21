@@ -117,14 +117,6 @@ const updateOnClickedAdminMenu = (state, id, value) => {
         default:
             return state;
     }
-
-    /*
-    window.location.href = state.adminMenu.find(element => {
-        return element.id === id;
-    }).href;
-    return state;
-
-     */
 };
 
 export default reducer;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DropDownAuthMenu } from '../../components/navbar/';
 import './admin.css';
 import { connect } from 'react-redux';
@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import WithSchoolSiteService from '../hoc/with-schoolsite-service-context';
 import { handleClickAdminMenu } from '../../actions';
 import SpinnerBoundary from '../spinner/spinner-boundary';
+import { UsersRights, UsersCell } from './users/users-rights';
 
 const WholeAdmin = ({ isAuthorized }) => {
     return (
@@ -22,65 +23,61 @@ const WholeAdmin = ({ isAuthorized }) => {
     );
 };
 
-const UsersCell = ({ value }) => {
-    return (
-        <td>
-            <input
-                type='text'
-                className='form-control users-input'
-                value={value}
-            />
-        </td>
-    );
-};
-
-const UsersRights = ({ checked, text }) => {
-    const wordChecked = checked ? 'check-' : '';
-    const className = `far fa-${wordChecked}square`;
-    return (
-        <button className='btn btn-outline-success btn-sm '>
-            <i className={className} />
-            {' ' + text}
-        </button>
-    );
-};
-
-const Users = ({ users }) => {
+const Users = ({ users, usersPageData }) => {
+    useEffect(() => {
+        const $ = window.$;
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    });
     const rows = users.value.map(data => {
         if (data.deleted === 0) {
             return (
-                //canconfigure(pin):0
-                // canchangeusers(pin):0
-                // canchangemenu(pin):0
-                // canchangematerials(pin):0
-                // deleted(pin):0
-                // enabled(pin):0
                 <tr key={data.id}>
-                    <UsersCell value={data.username} />
-                    <UsersCell value={data.firstname} />
-                    <UsersCell value={data.lastname} />
-                    <UsersCell value={data.email} />
-                    <UsersCell value={data.description} />
+                    <UsersCell data={data} usersPageData={usersPageData['userName']}/>
+                    <UsersCell data={data} usersPageData={usersPageData['firstName']}/>
+                    <UsersCell data={data} usersPageData={usersPageData['lastName']}/>
+                    <UsersCell data={data} usersPageData={usersPageData['email']}/>
+                    <UsersCell data={data} usersPageData={usersPageData['description']}/>
                     <td>
-                        <UsersRights checked={data.canconfigure} text='конфигурацию'/>
-                        <UsersRights checked={data.canchangeusers} text='пользователей'/>
-                        <UsersRights checked={data.canchangemenu} text='меню' />
-                        <UsersRights checked={data.canchangematerials} text='материалы'/>
+                        <UsersRights
+                            data={data}
+                            usersPageData={usersPageData['canConfigure']}
+                        />
+                        <UsersRights
+                            data={data}
+                            usersPageData={usersPageData['canChangeUsers']}
+                        />
+                        <UsersRights
+                            data={data}
+                            usersPageData={usersPageData['canChangeMenu']}
+                        />
+                        <UsersRights
+                            data={data}
+                            usersPageData={usersPageData['canChangeMaterials']}
+                        />
                     </td>
                     <td>
-                        <UsersRights checked={data.enabled} text='Активен' />
-                        <button className='btn btn-outline-success btn-sm '>
-                            <i className='fas fa-user-slash' />
-                        </button>
-                        <button className='btn btn-outline-success btn-sm '>
-                            <i className='fas fa-key' />
-                        </button>
-                        <button className='btn btn-outline-success btn-sm '>
-                            <i className='far fa-check-circle' />
-                        </button>
-                        <button className='btn btn-outline-success btn-sm '>
-                            <i className='fa fa-undo' />
-                        </button>
+                        <UsersRights
+                            data={data}
+                            usersPageData={usersPageData['enabled']}
+                        />
+                        <UsersRights
+                            data={data}
+                            usersPageData={usersPageData['deleteUser']}
+                        />
+                        <UsersRights
+                            data={data}
+                            usersPageData={usersPageData['changePassword']}
+                        />
+                        <UsersRights
+                            data={data}
+                            usersPageData={usersPageData['apply']}
+                        />
+                        <UsersRights
+                            data={data}
+                            usersPageData={usersPageData['revert']}
+                        />
                     </td>
                 </tr>
             );
@@ -110,6 +107,8 @@ const Admin = ({
     users,
     schoolSiteService,
     handleClickAdminMenu,
+    usersPageData,
+    handleUsersButtons,
 }) => {
     const { id } = match.params;
 
@@ -127,15 +126,15 @@ const Admin = ({
             });
         return (
             <SpinnerBoundary isLoaded={users.isLoaded}>
-                <Users users={users} />
+                <Users users={users} usersPageData={usersPageData} handleUsersButtons={handleUsersButtons}/>
             </SpinnerBoundary>
         );
     }
     return <h6>{id}</h6>;
 };
 
-const mapStateToAdminProps = ({ isAuthorized, users }) => {
-    return { isAuthorized, users };
+const mapStateToAdminProps = ({ isAuthorized, users, usersPageData }) => {
+    return { isAuthorized, users, usersPageData };
 };
 const mapDispatchToAdminProps = {
     handleClickAdminMenu,

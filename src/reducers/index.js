@@ -1,9 +1,11 @@
 import adminMenu from './admin-menu';
 import loginMenu from './login-menu';
 import backendApi from './backend-api';
+import usersPageData from './users-page-data';
 
 const initialState = {
     backendApi,
+    usersPageData,
     isAuthorized: false,
     users: {
         value: [],

@@ -41,6 +41,11 @@ const usersLoaded = users => {
     };
 };
 
+const handleUsersTableEvents = (id, name, event) => {
+    console.log(`name: ${name}, id:${id}`);
+    return {type: ''};
+};
+
 export {
     mainMenuLoaded,
     handleRememberChecked,
@@ -49,4 +54,5 @@ export {
     JWTValidated,
     handleClickAdminMenu,
     usersLoaded,
+    handleUsersTableEvents,
 };

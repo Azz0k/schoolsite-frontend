@@ -1,6 +1,7 @@
 import React from 'react';
 import { handleUsersTableEvents } from '../../../actions';
 import { connect } from 'react-redux';
+import usersPageData from '../../../reducers/users-page-data';
 
 let UsersCell = ({
     data = {},
@@ -12,13 +13,15 @@ let UsersCell = ({
         inputValue = '';
     }
     return (
-        <td>
+        <td key={data.id + value}>
             <input
                 type='text'
                 className='form-control users-input'
                 value={inputValue}
                 placeholder={text}
-                onChange={event => handleUsersTableEvents(data.id, name, event)}
+                onChange={event =>
+                    handleUsersTableEvents(data.id, value, event)
+                }
             />
         </td>
     );
@@ -33,10 +36,11 @@ let UsersRights = ({
     const className = checked ? classChecked : classUnchecked;
     return (
         <button
+            key={data.id + value}
             className='btn btn-outline-success btn-sm'
             name={name}
             id={data.id}
-            onClick={event => handleUsersTableEvents(data.id, name, event)}
+            onClick={event => handleUsersTableEvents(data.id, value, event)}
             data-toggle='tooltip'
             data-placement='top'
             title={tooltip}

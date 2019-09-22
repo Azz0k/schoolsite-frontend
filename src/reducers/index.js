@@ -96,9 +96,37 @@ const reducer = (state = initialState, action) => {
                 },
             };
         }
+        case 'UPDATE_USERS_CHANGE_FIELDS': {
+            const { id, name, value } = action.payload;
+            return {
+                ...state,
+                users: {
+                    ...state.users,
+                    value: updateUsersOnChangeFields(
+                        state.users.value,
+                        id,
+                        name,
+                        value,
+                    ),
+                },
+            };
+        }
         default:
             return state;
     }
+};
+//переписать
+const updateUsersOnChangeFields = (state, id, name, value) => {
+    state = [...state];
+    const element = state.find(e => {
+        return e.id === id;
+    });
+    element[name] = value;
+    const rest = state.filter(e => {
+        return e.id !== id;
+    });
+    console.log([...rest, element]);
+    return [...rest, element];
 };
 
 const updateOnClickedAdminMenu = (state, id, value) => {

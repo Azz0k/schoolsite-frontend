@@ -34,11 +34,26 @@ const Users = ({ users, usersPageData }) => {
         if (data.deleted === 0) {
             return (
                 <tr key={data.id}>
-                    <UsersCell data={data} usersPageData={usersPageData['userName']}/>
-                    <UsersCell data={data} usersPageData={usersPageData['firstName']}/>
-                    <UsersCell data={data} usersPageData={usersPageData['lastName']}/>
-                    <UsersCell data={data} usersPageData={usersPageData['email']}/>
-                    <UsersCell data={data} usersPageData={usersPageData['description']}/>
+                    <UsersCell
+                        data={data}
+                        usersPageData={usersPageData['userName']}
+                    />
+                    <UsersCell
+                        data={data}
+                        usersPageData={usersPageData['firstName']}
+                    />
+                    <UsersCell
+                        data={data}
+                        usersPageData={usersPageData['lastName']}
+                    />
+                    <UsersCell
+                        data={data}
+                        usersPageData={usersPageData['email']}
+                    />
+                    <UsersCell
+                        data={data}
+                        usersPageData={usersPageData['description']}
+                    />
                     <td>
                         <UsersRights
                             data={data}
@@ -108,7 +123,6 @@ const Admin = ({
     schoolSiteService,
     handleClickAdminMenu,
     usersPageData,
-    handleUsersButtons,
 }) => {
     const { id } = match.params;
 
@@ -116,17 +130,19 @@ const Admin = ({
         return <WholeAdmin isAuthorized={isAuthorized} />;
     }
     if (id === 'users') {
-        schoolSiteService
-            .getUsers()
-            .then(resolve => {
-                handleClickAdminMenu('Users', resolve);
-            })
-            .catch(reject => {
-                console.log(reject);
-            });
+        if (!users.isLoaded) {
+            schoolSiteService
+                .getUsers()
+                .then(resolve => {
+                    handleClickAdminMenu('Users', resolve);
+                })
+                .catch(reject => {
+                    console.log(reject);
+                });
+        }
         return (
             <SpinnerBoundary isLoaded={users.isLoaded}>
-                <Users users={users} usersPageData={usersPageData} handleUsersButtons={handleUsersButtons}/>
+                <Users users={users} usersPageData={usersPageData} />
             </SpinnerBoundary>
         );
     }
@@ -134,7 +150,7 @@ const Admin = ({
 };
 
 const mapStateToAdminProps = ({ isAuthorized, users, usersPageData }) => {
-    return { isAuthorized, users, usersPageData };
+    return { isAuthorized, users, usersValue: users.value, usersPageData };
 };
 const mapDispatchToAdminProps = {
     handleClickAdminMenu,

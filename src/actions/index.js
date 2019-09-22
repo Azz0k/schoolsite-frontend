@@ -42,7 +42,12 @@ const usersLoaded = users => {
 };
 
 const handleUsersTableEvents = (id, name, event) => {
-    console.log(`name: ${name}, id:${id}`);
+    if (event.type === 'change') {
+        return {
+            type: 'UPDATE_USERS_CHANGE_FIELDS',
+            payload: { id, name, value: event.target.value },
+        };
+    }
     return {type: ''};
 };
 

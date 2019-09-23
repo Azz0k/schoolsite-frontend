@@ -115,18 +115,23 @@ const reducer = (state = initialState, action) => {
             return state;
     }
 };
-//переписать
+
 const updateUsersOnChangeFields = (state, id, name, value) => {
-    state = [...state];
-    const element = state.find(e => {
+    let element = state.find(e => {
         return e.id === id;
     });
-    element[name] = value;
-    const rest = state.filter(e => {
-        return e.id !== id;
+    element = {
+        ...element,
+        [name]: value,
+    };
+    const rest = state.map(e => {
+        if (e.id === id) {
+            return element;
+        } else {
+            return e;
+        }
     });
-    console.log([...rest, element]);
-    return [...rest, element];
+    return [...rest];
 };
 
 const updateOnClickedAdminMenu = (state, id, value) => {

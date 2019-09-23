@@ -1,7 +1,6 @@
 import React from 'react';
 import { handleUsersTableEvents } from '../../../actions';
 import { connect } from 'react-redux';
-import usersPageData from '../../../reducers/users-page-data';
 
 let UsersCell = ({
     data = {},

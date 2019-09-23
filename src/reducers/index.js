@@ -124,14 +124,14 @@ const updateUsersOnChangeFields = (state, id, name, value) => {
         ...element,
         [name]: value,
     };
-    const rest = state.map(e => {
+    const result = state.map(e => {
         if (e.id === id) {
             return element;
         } else {
             return e;
         }
     });
-    return [...rest];
+    return result;
 };
 
 const updateOnClickedAdminMenu = (state, id, value) => {

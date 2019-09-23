@@ -3,6 +3,20 @@ import loginMenu from './login-menu';
 import backendApi from './backend-api';
 import usersPageData from './users-page-data';
 
+const emptyUser = {
+    id: '',
+    username: '',
+    firstname: '',
+    lastname: '',
+    email: '',
+    description: '',
+    enabled: 0,
+    deleted: 0,
+    canconfigure: 0,
+    canchangeusers: 0,
+    canchangemenu: 0,
+    canchangematerials: 0,
+};
 const initialState = {
     backendApi,
     usersPageData,
@@ -87,26 +101,32 @@ const reducer = (state = initialState, action) => {
             const { id, value } = action.payload;
             return updateOnClickedAdminMenu(state, id, value);
         }
-        case 'USERS_LOADED': {
-            return {
-                ...state,
-                users: {
-                    value: action.payload,
-                    isLoaded: true,
-                },
-            };
-        }
-        case 'UPDATE_USERS_CHANGE_FIELDS': {
-            const { id, name, value } = action.payload;
+        case 'ADD_USER_CLICKED': {
+            const maxId =
+                state.users.value.reduce((a, b) => {
+                    if (b.id > a) return b.id;
+                    else return a;
+                }, 0) + 1;
+            console.log(maxId);
             return {
                 ...state,
                 users: {
                     ...state.users,
-                    value: updateUsersOnChangeFields(
+                    value: [...state.users.value, { ...emptyUser, id: maxId }],
+                },
+            };
+        }
+        case 'UPDATE_USERS_CHANGE_AND_CLICK': {
+            const { id, name, event } = action.payload;
+            return {
+                ...state,
+                users: {
+                    ...state.users,
+                    value: updateUsersOnChangeAndClick(
                         state.users.value,
                         id,
                         name,
-                        value,
+                        event,
                     ),
                 },
             };
@@ -116,14 +136,21 @@ const reducer = (state = initialState, action) => {
     }
 };
 
-const updateUsersOnChangeFields = (state, id, name, value) => {
+const updateUsersOnChangeAndClick = (state, id, name, event) => {
     let element = state.find(e => {
         return e.id === id;
     });
-    element = {
-        ...element,
-        [name]: value,
-    };
+    if (event.type === 'click') {
+        element = {
+            ...element,
+            [name]: !element[name],
+        };
+    } else {
+        element = {
+            ...element,
+            [name]: event.target.value,
+        };
+    }
     const result = state.map(e => {
         if (e.id === id) {
             return element;

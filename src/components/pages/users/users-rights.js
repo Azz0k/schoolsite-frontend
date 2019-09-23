@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 let UsersCell = ({
     data = {},
     handleUsersTableEvents,
-    usersPageData: { text, value, name },
+    usersPageData: { text, value },
 }) => {
     let inputValue = data[value];
     if (inputValue === null) {
@@ -29,6 +29,7 @@ let UsersCell = ({
 let UsersRights = ({
     data = {},
     handleUsersTableEvents,
+    handleClick = handleUsersTableEvents,
     usersPageData: { text, value, name, classChecked, classUnchecked, tooltip },
 }) => {
     const checked = data[value];
@@ -39,7 +40,7 @@ let UsersRights = ({
             className='btn btn-outline-success btn-sm'
             name={name}
             id={data.id}
-            onClick={event => handleUsersTableEvents(data.id, value, event)}
+            onClick={event => handleClick(data.id, value, event)}
             data-toggle='tooltip'
             data-placement='top'
             title={tooltip}

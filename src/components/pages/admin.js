@@ -4,7 +4,7 @@ import './admin.css';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import WithSchoolSiteService from '../hoc/with-schoolsite-service-context';
-import { handleClickAdminMenu } from '../../actions';
+import { fetchUsers } from '../../actions';
 import SpinnerBoundary from '../spinner/spinner-boundary';
 import Users from './users/users';
 
@@ -23,14 +23,7 @@ const WholeAdmin = ({ isAuthorized }) => {
     );
 };
 
-const Admin = ({
-    isAuthorized,
-    match,
-    users,
-    schoolSiteService,
-    handleClickAdminMenu,
-    usersPageData,
-}) => {
+const Admin = ({ isAuthorized, match, users, fetchUsers, usersPageData }) => {
     const { id } = match.params;
 
     if (id === undefined) {
@@ -38,14 +31,7 @@ const Admin = ({
     }
     if (id === 'users') {
         if (!users.isLoaded) {
-            schoolSiteService
-                .getUsers()
-                .then(resolve => {
-                    handleClickAdminMenu('Users', resolve);
-                })
-                .catch(reject => {
-                    console.log(reject);
-                });
+            fetchUsers();
         }
         return (
             <SpinnerBoundary isLoaded={users.isLoaded}>
@@ -59,8 +45,10 @@ const Admin = ({
 const mapStateToAdminProps = ({ isAuthorized, users, usersPageData }) => {
     return { isAuthorized, users, usersValue: users.value, usersPageData };
 };
-const mapDispatchToAdminProps = {
-    handleClickAdminMenu,
+const mapDispatchToAdminProps = (dispatch, { schoolSiteService }) => {
+    return {
+        fetchUsers: fetchUsers(schoolSiteService, dispatch),
+    };
 };
 export default withRouter(
     WithSchoolSiteService(

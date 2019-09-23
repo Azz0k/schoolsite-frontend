@@ -34,21 +34,28 @@ const handleClickAdminMenu = (id, value) => {
     };
 };
 
-const usersLoaded = users => {
+const addUser = () => {
     return {
-        type: 'USERS_LOADED',
-        payload: users,
+        type: 'ADD_USER_CLICKED',
     };
 };
 
 const handleUsersTableEvents = (id, name, event) => {
-    if (event.type === 'change') {
-        return {
-            type: 'UPDATE_USERS_CHANGE_FIELDS',
-            payload: { id, name, value: event.target.value },
-        };
-    }
-    return {type: ''};
+    return {
+        type: 'UPDATE_USERS_CHANGE_AND_CLICK',
+        payload: { id, name, event },
+    };
+};
+
+const fetchUsers = (schoolSiteService, dispatch) => () => {
+    schoolSiteService
+        .getUsers()
+        .then(resolve => {
+            dispatch(handleClickAdminMenu('Users', resolve));
+        })
+        .catch(reject => {
+            console.log(reject);
+        });
 };
 
 export {
@@ -58,6 +65,7 @@ export {
     loginFormValidated,
     JWTValidated,
     handleClickAdminMenu,
-    usersLoaded,
+    addUser,
     handleUsersTableEvents,
+    fetchUsers,
 };

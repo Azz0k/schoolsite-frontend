@@ -24,6 +24,10 @@ const initialState = {
     users: {
         value: [],
         isLoaded: false,
+        errorFound: false,
+        wrongId: null,
+        canRevert: false,
+        canApply: false,
     },
     mainMenu: {
         value: [],
@@ -113,6 +117,23 @@ const reducer = (state = initialState, action) => {
                 users: {
                     ...state.users,
                     value: [...state.users.value, { ...emptyUser, id: maxId }],
+                    canRevert: true,
+                    canApply: true,
+                },
+            };
+        }
+        case 'DELETE_USER_CLICKED': {
+            const { id } = action.payload;
+            const newValue = state.users.value.filter(
+                element => element.id !== id,
+            );
+            return {
+                ...state,
+                users: {
+                    ...state.users,
+                    value: newValue,
+                    canApply: true,
+                    canRevert: true,
                 },
             };
         }
@@ -128,6 +149,19 @@ const reducer = (state = initialState, action) => {
                         name,
                         event,
                     ),
+                    canRevert: true,
+                    canApply: true,
+                },
+            };
+        }
+        case 'UPDATE_USERS_VALIDATED': {
+            const { errorFound, wrongId } = action.payload;
+            return {
+                ...state,
+                users: {
+                    ...state.users,
+                    errorFound,
+                    wrongId,
                 },
             };
         }
@@ -172,8 +206,13 @@ const updateOnClickedAdminMenu = (state, id, value) => {
             return {
                 ...state,
                 users: {
+                    ...state.users,
                     value,
                     isLoaded: true,
+                    errorFound: false,
+                    wrongId: null,
+                    canRevert: false,
+                    canApply: false,
                 },
             };
         default:

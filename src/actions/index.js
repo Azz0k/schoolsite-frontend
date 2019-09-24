@@ -40,10 +40,23 @@ const addUser = () => {
     };
 };
 
+const deleteUser = id => {
+    return {
+        type: 'DELETE_USER_CLICKED',
+        payload: { id },
+    };
+};
+
 const handleUsersTableEvents = (id, name, event) => {
     return {
         type: 'UPDATE_USERS_CHANGE_AND_CLICK',
         payload: { id, name, event },
+    };
+};
+const usersValidated = (errorFound, wrongId) => {
+    return {
+        type: 'UPDATE_USERS_VALIDATED',
+        payload: { errorFound, wrongId },
     };
 };
 
@@ -58,6 +71,39 @@ const fetchUsers = (schoolSiteService, dispatch) => () => {
         });
 };
 
+const validateUsers = users => {
+    const pattern = /^[\w-_@.]+$/;
+    let wrongId;
+    let errorFound = false;
+    const set = new Set();
+    users.value.forEach(el => {
+        if (
+            !pattern.test(el.username) ||
+            el.username.length === 0 ||
+            set.has(el.username)
+        ) {
+            errorFound = true;
+            wrongId = el.id;
+        }
+        set.add(el.username);
+    });
+    return { errorFound, wrongId };
+};
+const applyUsers = (schoolSiteService, dispatch) => users => {
+    const { errorFound, wrongId } = validateUsers(users);
+    dispatch(usersValidated(errorFound, wrongId));
+    if (!errorFound) {
+        schoolSiteService
+            .putUsers(users.value)
+            .then(resolve => {
+                dispatch(handleClickAdminMenu('Users', resolve));
+            })
+            .catch(reject => {
+                console.log(reject);
+            });
+    }
+};
+
 export {
     mainMenuLoaded,
     handleRememberChecked,
@@ -68,4 +114,6 @@ export {
     addUser,
     handleUsersTableEvents,
     fetchUsers,
+    applyUsers,
+    deleteUser,
 };

@@ -86,6 +86,7 @@ const usersPageData = {
         classChecked: '',
         classUnchecked: '',
         tooltip: '',
+        validation: 'Неверное имя пользователя',
     },
     firstName: {
         name: 'firstName',

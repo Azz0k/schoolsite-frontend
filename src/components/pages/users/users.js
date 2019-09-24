@@ -2,9 +2,16 @@ import React, { useEffect } from 'react';
 import { UsersRights, UsersCell } from './users-rights';
 import { WithSchoolSiteService } from '../../hoc';
 import { connect } from 'react-redux';
-import { fetchUsers, addUser } from '../../../actions';
+import { fetchUsers, addUser, applyUsers, deleteUser } from '../../../actions';
 
-const Users = ({ users, usersPageData, fetchUsers, addUser }) => {
+const Users = ({
+    users,
+    usersPageData,
+    fetchUsers,
+    addUser,
+    applyUsers,
+    deleteUser,
+}) => {
     useEffect(() => {
         const $ = window.$;
         $(function() {
@@ -18,6 +25,9 @@ const Users = ({ users, usersPageData, fetchUsers, addUser }) => {
                 <tr key={data.id}>
                     <UsersCell
                         data={data}
+                        needValidation={true}
+                        errorFound={users.errorFound}
+                        wrongId={users.wrongId}
                         usersPageData={usersPageData['userName']}
                     />
                     <UsersCell
@@ -62,6 +72,7 @@ const Users = ({ users, usersPageData, fetchUsers, addUser }) => {
                         <UsersRights
                             data={data}
                             usersPageData={usersPageData['deleteUser']}
+                            handleClick={() => deleteUser(data.id)}
                         />
                         <UsersRights
                             data={data}
@@ -94,10 +105,13 @@ const Users = ({ users, usersPageData, fetchUsers, addUser }) => {
                 />
                 <UsersRights
                     usersPageData={usersPageData['apply']}
+                    handleClick={() => applyUsers(users)}
+                    disabled={!users.canApply}
                 />
                 <UsersRights
                     usersPageData={usersPageData['revert']}
                     handleClick={fetchUsers}
+                    disabled={!users.canRevert}
                 />
             </div>
         </React.Fragment>
@@ -109,6 +123,10 @@ const mapDispatchToUsersProps = (dispatch, { schoolSiteService }) => {
         fetchUsers: fetchUsers(schoolSiteService, dispatch),
         addUser: () => {
             dispatch(addUser());
+        },
+        applyUsers: applyUsers(schoolSiteService, dispatch),
+        deleteUser: id => {
+            dispatch(deleteUser(id));
         },
     };
 };

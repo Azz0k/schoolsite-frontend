@@ -129,6 +129,10 @@ class SchoolSiteService {
             }, 1000);
         });
     }
+
+    async putUsers(users) {
+        return users;
+    }
 }
 
 export default SchoolSiteService;

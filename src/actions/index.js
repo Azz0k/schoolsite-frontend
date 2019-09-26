@@ -94,7 +94,7 @@ const applyUsers = (schoolSiteService, dispatch) => users => {
     dispatch(usersValidated(errorFound, wrongId));
     if (!errorFound) {
         schoolSiteService
-            .putUsers(users.value)
+            .putUsers(users)
             .then(resolve => {
                 dispatch(handleClickAdminMenu('Users', resolve));
             })

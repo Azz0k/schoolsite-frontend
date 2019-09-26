@@ -28,6 +28,8 @@ const initialState = {
         wrongId: null,
         canRevert: false,
         canApply: false,
+        updateUsersId: new Set(),
+        addUsersId: new Set(),
     },
     mainMenu: {
         value: [],
@@ -119,14 +121,18 @@ const reducer = (state = initialState, action) => {
                     value: [...state.users.value, { ...emptyUser, id: maxId }],
                     canRevert: true,
                     canApply: true,
+                    addUsersId: state.users.addUsersId.add(maxId),
                 },
             };
         }
         case 'DELETE_USER_CLICKED': {
             const { id } = action.payload;
-            const newValue = state.users.value.filter(
-                element => element.id !== id,
-            );
+            const newValue = state.users.value.map(element => {
+                if (id === element.id) {
+                    element.deleted = 1;
+                }
+                return element;
+            });
             return {
                 ...state,
                 users: {
@@ -134,6 +140,7 @@ const reducer = (state = initialState, action) => {
                     value: newValue,
                     canApply: true,
                     canRevert: true,
+                    updateUsersId: state.users.updateUsersId.add(id),
                 },
             };
         }
@@ -151,6 +158,7 @@ const reducer = (state = initialState, action) => {
                     ),
                     canRevert: true,
                     canApply: true,
+                    updateUsersId: state.users.updateUsersId.add(id),
                 },
             };
         }

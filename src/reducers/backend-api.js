@@ -4,8 +4,9 @@ let backendApi = {
     api: '/api/1.0.0',
     storage: null,
     jwt: null,
-    loginUrl: '/login.php?XDEBUG_SESSION_START=10956',
-    usersUrl: '/users/index.php?XDEBUG_SESSION_START=12343',
+    loginUrl: '/login.php',
+    usersUrl: '/users/index.php',
+    usersUpdateUrl: '/users/update.php?XDEBUG_SESSION_START=17501',
     loginHeaders: {
         'Content-Type': 'application/json; charset=UTF-8',
     },

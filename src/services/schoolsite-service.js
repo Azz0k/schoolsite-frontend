@@ -130,8 +130,23 @@ class SchoolSiteService {
         });
     }
 
+    //переписать - принимает пользователей, вызывает функцию адд (если в добавленных нет удаленных) и апдейт
     async putUsers(users) {
-        return users;
+        const { backendApi } = store.getState();
+        const jwt = backendApi.jwt;
+        let AuthHeader = { Authorization: 'Bearer ' + jwt };
+        const url =
+            backendApi.host + backendApi.api + backendApi.usersUpdateUrl;
+        let response;
+        try {
+            response = await backendApi.app.post(url, users, {
+                headers: AuthHeader,
+            });
+            console.log(response);
+        } catch (e) {
+            throw new Error('Service unavailable');
+        }
+        return users.value;
     }
 }
 

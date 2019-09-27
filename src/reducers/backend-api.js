@@ -6,6 +6,7 @@ let backendApi = {
     jwt: null,
     loginUrl: '/login.php',
     usersUrl: '/users/index.php',
+    jsonRpc: '/jsonrpc/index.php',
     usersUpdateUrl: '/users/update.php?XDEBUG_SESSION_START=17501',
     loginHeaders: {
         'Content-Type': 'application/json; charset=UTF-8',

@@ -101,15 +101,21 @@ class SchoolSiteService {
         const { backendApi, isAuthorized } = store.getState();
         const jwt = backendApi.jwt;
         let AuthHeader = { Authorization: 'Bearer ' + jwt };
-        const url = backendApi.host + backendApi.api + backendApi.usersUrl;
+        const url = backendApi.host + backendApi.api + backendApi.jsonRpc;
+        //const url = backendApi.host + backendApi.api + backendApi.usersUrl;
         let response;
         try {
-            response = await backendApi.app.get(url, { headers: AuthHeader });
+            let data = { jsonrpc: '2.0', method: 'Users.getAll' };
+            response = await backendApi.app.post(url, data, {
+                headers: AuthHeader,
+            });
+            //response = await backendApi.app.get(url, { headers: AuthHeader });
         } catch (e) {
             throw new Error(`Not connected! ${isAuthorized} `);
         }
         if (response.status === 200) {
-            return response.data;
+            const { result } = response.data;
+            return result;
         }
         throw new Error('Service unavailable');
     }

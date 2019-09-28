@@ -9,6 +9,12 @@ const handleRememberChecked = () => {
         type: 'REMEMBER_CHECKED',
     };
 };
+
+const handleLogout = () => {
+    return {
+        type: 'LOGOUT',
+    };
+};
 const handleChangeLoginForm = (value, name) => {
     return {
         type: 'LOGIN_FORM_ONCHANGE',
@@ -27,10 +33,10 @@ const JWTValidated = (jwt, storage, rights) => {
         payload: { jwt, storage, rights },
     };
 };
-const handleClickAdminMenu = (id, value) => {
+const handleFetchedUsers = (id, value) => {
     return {
-        type: 'CLICKED_ON_ADMIN_MENU',
-        payload: { id, value },
+        type: 'FETCHED_USERS',
+        payload: { value },
     };
 };
 
@@ -64,7 +70,7 @@ const fetchUsers = (schoolSiteService, dispatch) => () => {
     schoolSiteService
         .getUsers()
         .then(resolve => {
-            dispatch(handleClickAdminMenu('Users', resolve));
+            dispatch(handleFetchedUsers('Users', resolve));
         })
         .catch(reject => {
             console.log(reject);
@@ -97,7 +103,7 @@ const applyUsers = (schoolSiteService, dispatch) => users => {
         schoolSiteService
             .putUsers()
             .then(resolve => {
-                dispatch(handleClickAdminMenu('Users', resolve));
+                dispatch(handleFetchedUsers('Users', resolve));
             })
             .catch(reject => {
                 console.log(reject);
@@ -111,10 +117,11 @@ export {
     handleChangeLoginForm,
     loginFormValidated,
     JWTValidated,
-    handleClickAdminMenu,
+    handleFetchedUsers,
     addUser,
     handleUsersTableEvents,
     fetchUsers,
     applyUsers,
     deleteUser,
+    handleLogout,
 };

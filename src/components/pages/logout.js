@@ -1,11 +1,11 @@
 import WithSchoolSiteService from '../hoc/with-schoolsite-service-context';
 import { withRouter } from 'react-router-dom';
-import { handleClickAdminMenu } from '../../actions';
+import { handleLogout } from '../../actions';
 import store from '../../store';
 
 const Logout = ({ schoolSiteService, history }) => {
     schoolSiteService.clearJWT();
-    store.dispatch(handleClickAdminMenu('Logout'));
+    store.dispatch(handleLogout());
     history.push('/');
     return false;
 };

@@ -2,21 +2,9 @@ import adminMenu from './admin-menu';
 import loginMenu from './login-menu';
 import backendApi from './backend-api';
 import usersPageData from './users-page-data';
+import updateUserSubclass from './update-user-subclass';
+import updateLoginFormSubclass from './update-loginform-subclass';
 
-const emptyUser = {
-    id: '',
-    username: '',
-    firstname: '',
-    lastname: '',
-    email: '',
-    description: '',
-    enabled: 0,
-    deleted: 0,
-    canconfigure: 0,
-    canchangeusers: 0,
-    canchangemenu: 0,
-    canchangematerials: 0,
-};
 const initialState = {
     backendApi,
     usersPageData,
@@ -57,36 +45,6 @@ const reducer = (state = initialState, action) => {
                 },
             };
         }
-        case 'REMEMBER_CHECKED': {
-            return {
-                ...state,
-                loginForm: {
-                    ...state.loginForm,
-                    isRememberChecked: !state.loginForm.isRememberChecked,
-                },
-            };
-        }
-        case 'LOGIN_FORM_ONCHANGE': {
-            let { name, value } = action.payload;
-            return {
-                ...state,
-                loginForm: {
-                    ...state.loginForm,
-                    [name]: value,
-                },
-            };
-        }
-        case 'LOGIN_FORM_VALIDATED': {
-            const { usernameValidation, passwordValidation } = action.payload;
-            return {
-                ...state,
-                loginForm: {
-                    ...state.loginForm,
-                    usernameValidation,
-                    passwordValidation,
-                },
-            };
-        }
         case 'JWT_VALIDATED': {
             const { jwt, storage, rights } = action.payload;
             const newAdminMenu = state.adminMenu.map(value => {
@@ -103,138 +61,18 @@ const reducer = (state = initialState, action) => {
                 },
             };
         }
-        case 'CLICKED_ON_ADMIN_MENU': {
-            const { id, value } = action.payload;
-            return updateOnClickedAdminMenu(state, id, value);
-        }
-        case 'ADD_USER_CLICKED': {
-            const maxId =
-                state.users.value.reduce((a, b) => {
-                    if (b.id > a) return b.id;
-                    else return a;
-                }, 0) + 1;
-            console.log(maxId);
-            return {
-                ...state,
-                users: {
-                    ...state.users,
-                    value: [...state.users.value, { ...emptyUser, id: maxId }],
-                    canRevert: true,
-                    canApply: true,
-                    addUsersId: state.users.addUsersId.add(maxId),
-                },
-            };
-        }
-        case 'DELETE_USER_CLICKED': {
-            const { id } = action.payload;
-            const newUpdateUsersId = state.users.updateUsersId;
-            const removeAdded = state.users.value.filter(element => {
-                return !state.users.addUsersId.has(element.id);
-            });
-            const newValue = removeAdded.map(element => {
-                if (id === element.id) {
-                    element.deleted = 1;
-                    newUpdateUsersId.add(id);
-                }
-                return element;
-            });
-            const newAddUsersId = state.users.addUsersId;
-            newAddUsersId.delete(id);
-            return {
-                ...state,
-                users: {
-                    ...state.users,
-                    value: newValue,
-                    canApply: newUpdateUsersId.size || newAddUsersId.size,
-                    canRevert: newUpdateUsersId.size || newAddUsersId.size,
-                    updateUsersId: newUpdateUsersId,
-                    addUsersId: newAddUsersId,
-                },
-            };
-        }
-        case 'UPDATE_USERS_CHANGE_AND_CLICK': {
-            const { id, name, event } = action.payload;
-            return {
-                ...state,
-                users: {
-                    ...state.users,
-                    value: updateUsersOnChangeAndClick(
-                        state.users.value,
-                        id,
-                        name,
-                        event,
-                    ),
-                    canRevert: true,
-                    canApply: true,
-                    updateUsersId: state.users.updateUsersId.add(id),
-                },
-            };
-        }
-        case 'UPDATE_USERS_VALIDATED': {
-            const { errorFound, wrongId } = action.payload;
-            return {
-                ...state,
-                users: {
-                    ...state.users,
-                    errorFound,
-                    wrongId,
-                },
-            };
-        }
-        default:
-            return state;
-    }
-};
-
-const updateUsersOnChangeAndClick = (state, id, name, event) => {
-    let element = state.find(e => {
-        return e.id === id;
-    });
-    if (event.type === 'click') {
-        element = {
-            ...element,
-            [name]: +!element[name],
-        };
-    } else {
-        element = {
-            ...element,
-            [name]: event.target.value,
-        };
-    }
-    const result = state.map(e => {
-        if (e.id === id) {
-            return element;
-        } else {
-            return e;
-        }
-    });
-    return result;
-};
-
-const updateOnClickedAdminMenu = (state, id, value) => {
-    switch (id) {
-        case 'Logout':
+        case 'LOGOUT': {
             return {
                 ...state,
                 isAuthorized: false,
             };
-        case 'Users':
+        }
+        default:
             return {
                 ...state,
-                users: {
-                    ...state.users,
-                    value,
-                    isLoaded: true,
-                    errorFound: false,
-                    wrongId: null,
-                    canRevert: false,
-                    canApply: false,
-                    updateUsersId: new Set(),
-                    addUsersId: new Set(),
-                },
+                loginForm: updateLoginFormSubclass(state.loginForm, action),
+                users: updateUserSubclass(state.users, action),
             };
-        default:
-            return state;
     }
 };
 

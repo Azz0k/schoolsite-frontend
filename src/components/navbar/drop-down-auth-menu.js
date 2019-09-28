@@ -4,7 +4,7 @@ import {
     handleRememberChecked,
     handleChangeLoginForm,
     loginFormValidated,
-    handleClickAdminMenu,
+    handleFetchedUsers,
 } from '../../actions';
 import {
     DropDownFormInput,
@@ -152,7 +152,7 @@ const mapDispatchToPropsDropDownMenu = {
     handleRememberChecked,
     handleChangeLoginForm,
     loginFormValidated,
-    handleClickAdminMenu,
+    handleClickAdminMenu: handleFetchedUsers,
 };
 
 export default withRouter(

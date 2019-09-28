@@ -1,13 +1,13 @@
 import testMainMenu from '../reducers/test-main-menu';
 import { utoa, atou } from '../utils/encode';
 import store from '../store';
-import { JWTValidated, handleClickAdminMenu } from '../actions';
+import { JWTValidated, handleLogout } from '../actions';
 
 class SchoolSiteService {
     constructor() {
         this.checkJWT().then(resolve => {
             if (!resolve) {
-                store.dispatch(handleClickAdminMenu('Logout', this));
+                store.dispatch(handleLogout());
             }
         });
     }

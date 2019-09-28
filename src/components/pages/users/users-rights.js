@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { handleUsersTableEvents } from '../../../actions';
 import { connect } from 'react-redux';
 
@@ -45,6 +45,8 @@ const turnOffTooltip = id => {
 
 let UsersRights = ({
     data = {},
+    dataToggle = 'tooltip',
+    dataTarget = '',
     handleUsersTableEvents,
     handleClick = handleUsersTableEvents,
     disabled = false,
@@ -64,7 +66,8 @@ let UsersRights = ({
                 turnOffTooltip(id);
                 handleClick(data.id, value, event);
             }}
-            data-toggle='tooltip'
+            data-toggle={dataToggle}
+            data-target={dataTarget}
             data-placement='top'
             title={tooltip}
             disabled={disabled}

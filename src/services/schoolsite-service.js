@@ -125,7 +125,7 @@ class SchoolSiteService {
         try {
             response = await this.rpcGet('Users.getAll');
         } catch (e) {
-            response = [];
+            throw new Error('Cant get users');
         }
 
         return response;
@@ -165,6 +165,20 @@ class SchoolSiteService {
             responseUpdate = responseAdd;
         }
         return responseUpdate;
+    }
+
+    async changePassword(newPassword, id) {
+        let response;
+        try {
+            response = await this.rpcGet(
+                'Users.changePassword',
+                newPassword,
+                id,
+            );
+        } catch (e) {
+            throw new Error('Cant change password');
+        }
+        return true;
     }
 
     async getNavBar() {

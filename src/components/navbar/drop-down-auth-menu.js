@@ -82,6 +82,7 @@ class DropDownAuthMenu extends React.PureComponent {
                         type='text'
                         textLabel={loginMenu.email}
                         name='username'
+                        value={loginForm.username}
                         handlerChange={this.handleChangeFields}
                         placeholder='email@example.com'
                         validation={loginForm.usernameValidation}
@@ -89,6 +90,7 @@ class DropDownAuthMenu extends React.PureComponent {
                     <DropDownFormInput
                         type={this.state.showPassword ? 'text' : 'password'}
                         name='password'
+                        value={loginForm.password}
                         handlerChange={this.handleChangeFields}
                         placeholder={loginMenu.password}
                         validation={loginForm.passwordValidation}

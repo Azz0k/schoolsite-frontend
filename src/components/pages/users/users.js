@@ -3,6 +3,7 @@ import { UsersRights, UsersCell } from './users-rights';
 import { WithSchoolSiteService } from '../../hoc';
 import { connect } from 'react-redux';
 import { fetchUsers, addUser, applyUsers, deleteUser } from '../../../actions';
+import ModalChangePassword from './modal-change-password';
 
 const Users = ({
     users,
@@ -77,7 +78,10 @@ const Users = ({
                         <UsersRights
                             data={data}
                             usersPageData={usersPageData['changePassword']}
+                            dataToggle='modal'
+                            dataTarget={'#modalChangePassword' + data.id}
                         />
+                        <ModalChangePassword id={data.id} />
                     </td>
                 </tr>
             );

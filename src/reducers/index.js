@@ -125,8 +125,7 @@ const reducer = (state = initialState, action) => {
                 },
             };
         }
-        case 'DELETE_USER_CLICKED': {//если удален добаленный - сразу удалить надо
-            debugger;
+        case 'DELETE_USER_CLICKED': {
             const { id } = action.payload;
             const newUpdateUsersId = state.users.updateUsersId;
             const removeAdded = state.users.value.filter(element => {

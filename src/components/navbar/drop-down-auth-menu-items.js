@@ -6,6 +6,7 @@ class DropDownFormInput extends React.PureComponent {
             type,
             textLabel = '',
             name,
+            value,
             handlerChange = () => {},
             placeholder = '',
             validation = '',
@@ -18,6 +19,7 @@ class DropDownFormInput extends React.PureComponent {
                     type={type}
                     className='form-control is-invalid'
                     id={name}
+                    value={value}
                     name={name}
                     placeholder={placeholder}
                     onChange={event => handlerChange(event)}

@@ -125,22 +125,31 @@ const reducer = (state = initialState, action) => {
                 },
             };
         }
-        case 'DELETE_USER_CLICKED': {
+        case 'DELETE_USER_CLICKED': {//если удален добаленный - сразу удалить надо
+            debugger;
             const { id } = action.payload;
-            const newValue = state.users.value.map(element => {
+            const newUpdateUsersId = state.users.updateUsersId;
+            const removeAdded = state.users.value.filter(element => {
+                return !state.users.addUsersId.has(element.id);
+            });
+            const newValue = removeAdded.map(element => {
                 if (id === element.id) {
                     element.deleted = 1;
+                    newUpdateUsersId.add(id);
                 }
                 return element;
             });
+            const newAddUsersId = state.users.addUsersId;
+            newAddUsersId.delete(id);
             return {
                 ...state,
                 users: {
                     ...state.users,
                     value: newValue,
-                    canApply: true,
-                    canRevert: true,
-                    updateUsersId: state.users.updateUsersId.add(id),
+                    canApply: newUpdateUsersId.size || newAddUsersId.size,
+                    canRevert: newUpdateUsersId.size || newAddUsersId.size,
+                    updateUsersId: newUpdateUsersId,
+                    addUsersId: newAddUsersId,
                 },
             };
         }
@@ -185,7 +194,7 @@ const updateUsersOnChangeAndClick = (state, id, name, event) => {
     if (event.type === 'click') {
         element = {
             ...element,
-            [name]: !element[name],
+            [name]: +!element[name],
         };
     } else {
         element = {
@@ -221,6 +230,8 @@ const updateOnClickedAdminMenu = (state, id, value) => {
                     wrongId: null,
                     canRevert: false,
                     canApply: false,
+                    updateUsersId: new Set(),
+                    addUsersId: new Set(),
                 },
             };
         default:

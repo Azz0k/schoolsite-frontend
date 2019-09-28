@@ -89,12 +89,13 @@ const validateUsers = users => {
     });
     return { errorFound, wrongId };
 };
+
 const applyUsers = (schoolSiteService, dispatch) => users => {
     const { errorFound, wrongId } = validateUsers(users);
     dispatch(usersValidated(errorFound, wrongId));
     if (!errorFound) {
         schoolSiteService
-            .putUsers(users)
+            .putUsers()
             .then(resolve => {
                 dispatch(handleClickAdminMenu('Users', resolve));
             })

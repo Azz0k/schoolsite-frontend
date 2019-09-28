@@ -97,27 +97,74 @@ class SchoolSiteService {
         return this.manageJWT(response, storage);
     }
 
-    async getUsers() {
-        const { backendApi, isAuthorized } = store.getState();
+    async rpcGet(method, params = null, id = null) {
+        const { backendApi } = store.getState();
         const jwt = backendApi.jwt;
         let AuthHeader = { Authorization: 'Bearer ' + jwt };
         const url = backendApi.host + backendApi.api + backendApi.jsonRpc;
         //const url = backendApi.host + backendApi.api + backendApi.usersUrl;
         let response;
         try {
-            let data = { jsonrpc: '2.0', method: 'Users.getAll' };
+            let data = { jsonrpc: '2.0', method, params, id };
             response = await backendApi.app.post(url, data, {
                 headers: AuthHeader,
             });
             //response = await backendApi.app.get(url, { headers: AuthHeader });
         } catch (e) {
-            throw new Error(`Not connected! ${isAuthorized} `);
+            throw new Error(`Not connected! `);
         }
         if (response.status === 200) {
             const { result } = response.data;
             return result;
         }
         throw new Error('Service unavailable');
+    }
+
+    async getUsers() {
+        let response;
+        try {
+            response = await this.rpcGet('Users.getAll');
+        } catch (e) {
+            response = [];
+        }
+
+        return response;
+    }
+
+    async putUsers() {
+        const { users } = store.getState();
+        let responseUpdate;
+        let responseAdd;
+        if (users.addUsersId.size > 0) {
+            const addUsersValue = users.value.filter(element => {
+                return users.addUsersId.has(element.id) && !element.deleted;
+            });
+            try {
+                responseAdd = await this.rpcGet('Users.add', addUsersValue);
+            } catch (e) {
+                console.log(e);
+                throw new Error('Cant add');
+            }
+        } else {
+            responseAdd = users.value;
+        }
+        if (users.updateUsersId.size > 0) {
+            const updateUsersValue = responseAdd.filter(element => {
+                return users.updateUsersId.has(element.id);
+            });
+            try {
+                responseUpdate = await this.rpcGet(
+                    'Users.update',
+                    updateUsersValue,
+                );
+            } catch (e) {
+                console.log(e);
+                throw new Error('Cant update');
+            }
+        } else {
+            responseUpdate = responseAdd;
+        }
+        return responseUpdate;
     }
 
     async getNavBar() {
@@ -134,25 +181,6 @@ class SchoolSiteService {
                 );
             }, 1000);
         });
-    }
-
-    //переписать - принимает пользователей, вызывает функцию адд (если в добавленных нет удаленных) и апдейт
-    async putUsers(users) {
-        const { backendApi } = store.getState();
-        const jwt = backendApi.jwt;
-        let AuthHeader = { Authorization: 'Bearer ' + jwt };
-        const url =
-            backendApi.host + backendApi.api + backendApi.usersUpdateUrl;
-        let response;
-        try {
-            response = await backendApi.app.post(url, users, {
-                headers: AuthHeader,
-            });
-            console.log(response);
-        } catch (e) {
-            throw new Error('Service unavailable');
-        }
-        return users.value;
     }
 }
 

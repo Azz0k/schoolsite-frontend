@@ -23,7 +23,31 @@ const WholeAdmin = ({ isAuthorized }) => {
     );
 };
 
-const Admin = ({ isAuthorized, match, users, fetchUsers, usersPageData }) => {
+const Menus = () => {
+    return (
+        <div className='d-flex justify-content-center'>
+            <div className='form-group'>
+                <select
+                    className='form-control'
+                    id='menuSelect'
+                    onChange={event => console.log(event.target.value)}
+                >
+                    <option>Горизонтальное</option>
+                    <option>Вертикальное</option>
+                </select>
+            </div>
+        </div>
+    );
+};
+
+const Admin = ({
+    isAuthorized,
+    match,
+    users,
+    menus,
+    fetchUsers,
+    usersPageData,
+}) => {
     const { id } = match.params;
 
     if (id === undefined) {
@@ -39,11 +63,23 @@ const Admin = ({ isAuthorized, match, users, fetchUsers, usersPageData }) => {
             </SpinnerBoundary>
         );
     }
+    if (id === 'menu') {
+        return (
+            <SpinnerBoundary isLoaded={menus.isLoaded}>
+                <Menus menus={menus} />
+            </SpinnerBoundary>
+        );
+    }
     return <h6>{id}</h6>;
 };
 
-const mapStateToAdminProps = ({ isAuthorized, users, usersPageData }) => {
-    return { isAuthorized, users, usersValue: users.value, usersPageData };
+const mapStateToAdminProps = ({
+    isAuthorized,
+    users,
+    menus,
+    usersPageData,
+}) => {
+    return { isAuthorized, users, menus, usersPageData };
 };
 const mapDispatchToAdminProps = (dispatch, { schoolSiteService }) => {
     return {

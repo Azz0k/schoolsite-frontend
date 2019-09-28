@@ -33,7 +33,7 @@ const JWTValidated = (jwt, storage, rights) => {
         payload: { jwt, storage, rights },
     };
 };
-const handleFetchedUsers = (id, value) => {
+const handleFetchedUsers = value => {
     return {
         type: 'FETCHED_USERS',
         payload: { value },
@@ -70,7 +70,7 @@ const fetchUsers = (schoolSiteService, dispatch) => () => {
     schoolSiteService
         .getUsers()
         .then(resolve => {
-            dispatch(handleFetchedUsers('Users', resolve));
+            dispatch(handleFetchedUsers(resolve));
         })
         .catch(reject => {
             console.log(reject);
@@ -103,7 +103,7 @@ const applyUsers = (schoolSiteService, dispatch) => users => {
         schoolSiteService
             .putUsers()
             .then(resolve => {
-                dispatch(handleFetchedUsers('Users', resolve));
+                dispatch(handleFetchedUsers(resolve));
             })
             .catch(reject => {
                 console.log(reject);

@@ -19,6 +19,11 @@ const initialState = {
         updateUsersId: new Set(),
         addUsersId: new Set(),
     },
+    menus: {
+        horizontalMenu: [],
+        verticalMenu: [],
+        isLoaded: true,
+    },
     mainMenu: {
         value: [],
         isLoaded: false,
@@ -70,10 +75,19 @@ const reducer = (state = initialState, action) => {
         default:
             return {
                 ...state,
+                menus: updateMenusSubclass(state.menus, action),
                 loginForm: updateLoginFormSubclass(state.loginForm, action),
                 users: updateUserSubclass(state.users, action),
             };
     }
 };
 
+const updateMenusSubclass = (menus, action) => {
+    switch (action.type) {
+        case '':
+            break;
+        default:
+            return menus;
+    }
+};
 export default reducer;

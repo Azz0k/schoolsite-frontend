@@ -4,7 +4,7 @@ let backendApi = {
     api: '/api/1.0.0',
     storage: null,
     jwt: null,
-    loginUrl: '/login.php',
+    loginUrl: '/login.php?XDEBUG_SESSION_START=17827',
     usersUrl: '/users/index.php',
     jsonRpc: '/jsonrpc/index.php',
     usersUpdateUrl: '/users/update.php?XDEBUG_SESSION_START=17501',

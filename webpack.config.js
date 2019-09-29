@@ -43,11 +43,19 @@ var config = {
                 },
             },
             {
-                test: /\.css$/i,
+                //test: /\.css$/i,
+                test: /\.(sa|sc|c)ss$/,
                 use: [
                     'style-loader',
                     MiniCssExtractPlugin.loader,
                     'css-loader',
+                    'postcss-loader',
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            implementation: require('sass'),
+                        },
+                    },
                 ],
             },
             {

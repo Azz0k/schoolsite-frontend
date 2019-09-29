@@ -3,7 +3,7 @@ const testMainMenu = [
     { id: '1',
         name:'Главная',
         href: '#',
-        submenu:[]
+        submenu: [],
     },
     { id: '2',
         name: 'Сведения об образовательной организации',
@@ -65,5 +65,6 @@ const testMainMenu = [
         submenu:[]
     },
 ];
+
 
 export default testMainMenu;

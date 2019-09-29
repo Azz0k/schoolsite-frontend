@@ -22,7 +22,7 @@ const initialState = {
     menus: {
         horizontalMenu: [],
         verticalMenu: [],
-        isLoaded: true,
+        isLoaded: false,
     },
     mainMenu: {
         value: [],
@@ -46,6 +46,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 mainMenu: {
                     value: action.payload,
+                    isLoaded: true,
+                },
+                menus: {
+                    ...state.menus,
+                    horizontalMenu: action.payload,
                     isLoaded: true,
                 },
             };

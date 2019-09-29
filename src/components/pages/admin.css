@@ -10,3 +10,13 @@ table {
 .users-input{
     width: 10em;
 }
+
+.w-90 {
+    width: 90%;
+}
+.w-80 {
+    width: 80%;
+}
+.w-70 {
+    width: 70%;
+}

@@ -111,6 +111,13 @@ const applyUsers = (schoolSiteService, dispatch) => users => {
     }
 };
 
+const updateHorizontalMenu = menu => {
+    return {
+        type: 'UPDATE_HORIZONTAL_MENU',
+        payload: { menu },
+    };
+}
+
 export {
     mainMenuLoaded,
     handleRememberChecked,
@@ -124,4 +131,5 @@ export {
     applyUsers,
     deleteUser,
     handleLogout,
+    updateHorizontalMenu,
 };

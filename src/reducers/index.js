@@ -4,6 +4,7 @@ import backendApi from './backend-api';
 import usersPageData from './users-page-data';
 import updateUserSubclass from './update-user-subclass';
 import updateLoginFormSubclass from './update-loginform-subclass';
+import testMainMenuFlat from './test-main-menu-flat';
 
 const initialState = {
     backendApi,
@@ -20,9 +21,9 @@ const initialState = {
         addUsersId: new Set(),
     },
     menus: {
-        horizontalMenu: [],
+        horizontalMenu: testMainMenuFlat,
         verticalMenu: [],
-        isLoaded: false,
+        isLoaded: true,
     },
     mainMenu: {
         value: [],
@@ -46,11 +47,6 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 mainMenu: {
                     value: action.payload,
-                    isLoaded: true,
-                },
-                menus: {
-                    ...state.menus,
-                    horizontalMenu: action.payload,
                     isLoaded: true,
                 },
             };
@@ -89,8 +85,13 @@ const reducer = (state = initialState, action) => {
 
 const updateMenusSubclass = (menus, action) => {
     switch (action.type) {
-        case '':
-            break;
+        case 'UPDATE_HORIZONTAL_MENU': {
+            const { menu } = action.payload;
+            return {
+                ...menus,
+                horizontalMenu: menu,
+            };
+        }
         default:
             return menus;
     }

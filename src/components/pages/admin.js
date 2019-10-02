@@ -23,44 +23,80 @@ const WholeAdmin = ({ isAuthorized }) => {
     );
 };
 
+const debounce = (f, ms) => {
+    let isCooldown = false;
+    return function() {
+        if (isCooldown) return;
+        f.apply(this, arguments);
+        isCooldown = true;
+        setTimeout(() => (isCooldown = false), ms);
+    };
+};
+
+// сейчас работает только на горизонтальном - сделать так, чтобы работало для обоих
 const Menus = ({ menus: { horizontalMenu }, updateHorizontalMenu }) => {
     const [droppedElement, setDroppedElement] = useState(null);
-    const updateMenu = menu => (droppedEl, droppedOn, position) => {
-        //допилить функцию, чтобы вставляло нормально а не куда -попало и удаляло исходник
-        let index = menu.findIndex(el => el.id === droppedOn.id);
-        index++;
+    const updateMenu = menu => (droppedEl, droppedOn, event) => {
         const newMenu = [...menu];
+        let dragging = false;
+        if (event.type === 'dragover') dragging = true;
+        const depthWidth = Math.floor(event.target.parentNode.clientWidth / 10);
+        let newDepth = Math.floor(event.clientX / depthWidth);
+        let newFather;
+        if (newDepth === droppedOn.depth) newFather = droppedOn.father;
+        else {
+            newDepth = droppedOn.depth + 1;
+            newFather = droppedOn.id;
+        }
         const newEl = {
             ...droppedEl,
-            father: droppedOn.id,
-            depth: droppedOn.depth + 1,
+            father: newFather,
+            depth: newDepth,
+            dragging,
         };
-        newMenu.splice(index, 0, newEl);
+        if (droppedOn.id !== droppedEl.id) {
+            let index = newMenu.findIndex(el => el.id === droppedEl.id);
+            newMenu.splice(index, 1);
+            index = newMenu.findIndex(el => el.id === droppedOn.id);
+            const verticalPosition =
+                event.offsetY - event.target.clientHeight / 2;
+            if (verticalPosition > 0) index++;
+            newMenu.splice(index, 0, newEl);
+        } else {
+            let index = newMenu.findIndex(el => el.id === droppedOn.id);
+            newMenu.splice(index, 1, newEl);
+        }
         updateHorizontalMenu(newMenu);
     };
     const menuToList = element =>
         element.map(data => {
             const currentWidth = 100 - data.depth * 10;
-            const className = 'list-group-item w-' + currentWidth;
+            let dragClass = '';
+            if (data.dragging) dragClass = ' list-group-item-warning';
+            const className = 'list-group-item w-' + currentWidth + dragClass;
             return (
                 <React.Fragment key={data.id}>
                     <li
                         className={className}
                         draggable
-                        onDragStart={event => {
-                            //event.dataTransfer.setData('id', data.id);
+                        onDragStart={() => {
                             setDroppedElement(data);
                         }}
-                        onDragOver={event => event.preventDefault()}
+                        onDragOver={event => {
+                            event.preventDefault();
+                            updateMenu(horizontalMenu)(
+                                droppedElement,
+                                data,
+                                event.nativeEvent,
+                            );
+                        }}
                         onDrop={event => {
                             //let droppedId = event.dataTransfer.getData('id');
                             updateMenu(horizontalMenu)(
                                 droppedElement,
                                 data,
-                                event.nativeEvent.clientY / 2 -
-                                    event.nativeEvent.offsetY,
+                                event.nativeEvent,
                             );
-                            console.log(event.nativeEvent);
                         }}
                     >
                         {data.name}

@@ -116,7 +116,53 @@ const updateHorizontalMenu = menu => {
         type: 'UPDATE_HORIZONTAL_MENU',
         payload: { menu },
     };
-}
+};
+
+const updateVerticalMenu = menu => {
+    return {
+        type: 'UPDATE_VERTICAL_MENU',
+        payload: { menu },
+    };
+};
+
+const updateMenuDragDrop = dispatch => (
+    menu,
+    menuType,
+    droppedEl,
+    droppedOn,
+    event,
+) => {
+    const newMenu = [...menu];
+    let dragging = false;
+    if (event.type === 'dragover') dragging = true;
+    const depthWidth = Math.floor(event.target.parentNode.clientWidth / 10);
+    let newDepth = Math.floor(event.clientX / depthWidth);
+    let newFather;
+    if (newDepth === droppedOn.depth) newFather = droppedOn.father;
+    else {
+        newDepth = droppedOn.depth + 1;
+        newFather = droppedOn.id;
+    }
+    const newEl = {
+        ...droppedEl,
+        father: newFather,
+        depth: newDepth,
+        dragging,
+    };
+    if (droppedOn.id !== droppedEl.id) {
+        let index = newMenu.findIndex(el => el.id === droppedEl.id);
+        newMenu.splice(index, 1);
+        index = newMenu.findIndex(el => el.id === droppedOn.id);
+        const verticalPosition = event.offsetY - event.target.clientHeight / 2;
+        if (verticalPosition > 0) index++;
+        newMenu.splice(index, 0, newEl);
+    } else {
+        let index = newMenu.findIndex(el => el.id === droppedOn.id);
+        newMenu.splice(index, 1, newEl);
+    }
+    if (menuType) dispatch(updateHorizontalMenu(newMenu));
+    else dispatch(updateVerticalMenu(newMenu));
+};
 
 export {
     mainMenuLoaded,
@@ -132,4 +178,5 @@ export {
     deleteUser,
     handleLogout,
     updateHorizontalMenu,
+    updateMenuDragDrop,
 };

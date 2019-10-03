@@ -1,14 +1,14 @@
 import adminMenu from './admin-menu';
 import loginMenu from './login-menu';
 import backendApi from './backend-api';
-import usersPageData from './users-page-data';
+import pagesData from './pages-data';
 import updateUserSubclass from './update-user-subclass';
 import updateLoginFormSubclass from './update-loginform-subclass';
 import testMainMenuFlat from './test-main-menu-flat';
 
 const initialState = {
     backendApi,
-    usersPageData,
+    pagesData,
     isAuthorized: false,
     users: {
         value: [],
@@ -24,6 +24,8 @@ const initialState = {
         horizontalMenu: testMainMenuFlat,
         verticalMenu: [],
         isLoaded: true,
+        canApply: false,
+        canRevert: false,
     },
     mainMenu: {
         value: [],
@@ -90,6 +92,13 @@ const updateMenusSubclass = (menus, action) => {
             return {
                 ...menus,
                 horizontalMenu: menu,
+            };
+        }
+        case 'UPDATE_VERTICAL_MENU': {
+            const { menu } = action.payload;
+            return {
+                ...menus,
+                verticalMenu: menu,
             };
         }
         default:

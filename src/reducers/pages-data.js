@@ -1,4 +1,4 @@
-const usersPageData = {
+const pagesData = {
     canConfigure: {
         name: 'canConfigure',
         value: 'canconfigure',
@@ -122,4 +122,4 @@ const usersPageData = {
     },
 };
 
-export default usersPageData;
+export default pagesData;

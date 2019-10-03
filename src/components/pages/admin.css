@@ -20,3 +20,10 @@ table {
 .w-70 {
     width: 70%;
 }
+
+.menu-selector{
+    margin: 10px;
+    cursor: pointer;
+
+}
+

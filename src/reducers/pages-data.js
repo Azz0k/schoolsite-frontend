@@ -120,6 +120,14 @@ const pagesData = {
         classUnchecked: '',
         tooltip: '',
     },
+    addMenuElement: {
+        name: 'addUser',
+        value: null,
+        text: '',
+        classChecked: 'far fa-plus-square fa-2x',
+        classUnchecked: 'far fa-plus-square fa-2x',
+        tooltip: 'Добавить элемент меню',
+    },
 };
 
 export default pagesData;

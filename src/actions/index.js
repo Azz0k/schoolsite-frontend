@@ -113,14 +113,14 @@ const applyUsers = (schoolSiteService, dispatch) => users => {
 
 const updateHorizontalMenu = menu => {
     return {
-        type: 'UPDATE_HORIZONTAL_MENU',
+        type: 'CHANGED_UPDATE_HORIZONTAL_MENU',
         payload: { menu },
     };
 };
 
 const updateVerticalMenu = menu => {
     return {
-        type: 'UPDATE_VERTICAL_MENU',
+        type: 'CHANGED_UPDATE_VERTICAL_MENU',
         payload: { menu },
     };
 };

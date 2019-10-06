@@ -37,7 +37,7 @@ const testMainMenuFlat = [
 ];
 
 const addDepth = menu => {
-    return menu.map(element => {
+    return menu.map((element, index) => {
         if (element.father === undefined) {
             element.depth = 0;
             addDepth.father = element;
@@ -49,6 +49,8 @@ const addDepth = menu => {
                 element.depth = addDepth.father.depth + 1;
             }
         }
+        element.order = index;
+        element.modifed = false;
         return element;
     });
 };

@@ -44,14 +44,18 @@ const Admin = ({
         }
         return (
             <SpinnerBoundary isLoaded={users.isLoaded}>
-                <Users users={users} usersPageData={pagesData} />
+                <Users users={users} pagesData={pagesData} />
             </SpinnerBoundary>
         );
     }
     if (id === 'menu') {
         return (
             <SpinnerBoundary isLoaded={menus.isLoaded}>
-                <Menus menus={menus} updateMenuDragDrop={updateMenuDragDrop} usersPageData={pagesData}/>
+                <Menus
+                    menus={menus}
+                    updateMenuDragDrop={updateMenuDragDrop}
+                    pagesData={pagesData}
+                />
             </SpinnerBoundary>
         );
     }

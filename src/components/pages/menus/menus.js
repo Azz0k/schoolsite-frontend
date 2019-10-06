@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UsersRights } from '../users/users-rights';
+import { PagesAwesomeButton } from '../users/pages-awesome-button';
 
 const debounce = (f, ms) => {
     let isCooldown = false;
@@ -20,7 +20,7 @@ const addActive = bool => {
 const Menus = ({
     menus: { horizontalMenu, verticalMenu, canApply, canRevert },
     updateMenuDragDrop,
-    usersPageData,
+    pagesData,
 }) => {
     const [droppedElement, setDroppedElement] = useState(null);
     const [isHorizontal, setMenuType] = useState(true);
@@ -89,17 +89,17 @@ const Menus = ({
                 {menuList}
             </ul>
             <div className='d-flex justify-content-center menu-selector'>
-                <UsersRights
-                    usersPageData={usersPageData['addUser']}
+                <PagesAwesomeButton
+                    pagesData={pagesData['addMenuElement']}
                     handleClick={() => {}}
                 />
-                <UsersRights
-                    usersPageData={usersPageData['apply']}
+                <PagesAwesomeButton
+                    pagesData={pagesData['apply']}
                     handleClick={() => {}}
                     disabled={!canApply}
                 />
-                <UsersRights
-                    usersPageData={usersPageData['revert']}
+                <PagesAwesomeButton
+                    pagesData={pagesData['revert']}
                     handleClick={() => {}}
                     disabled={!canRevert}
                 />

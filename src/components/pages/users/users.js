@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { UsersRights, UsersCell } from './users-rights';
+import { PagesAwesomeButton, PagesInput } from './pages-awesome-button';
 import { WithSchoolSiteService } from '../../hoc';
 import { connect } from 'react-redux';
 import { fetchUsers, addUser, applyUsers, deleteUser } from '../../../actions';
@@ -7,7 +7,7 @@ import ModalChangePassword from './modal-change-password';
 
 const Users = ({
     users,
-    usersPageData,
+    pagesData,
     fetchUsers,
     addUser,
     applyUsers,
@@ -24,60 +24,54 @@ const Users = ({
         .map(data => {
             return (
                 <tr key={data.id}>
-                    <UsersCell
+                    <PagesInput
                         data={data}
                         needValidation={true}
                         errorFound={users.errorFound}
                         wrongId={users.wrongId}
-                        usersPageData={usersPageData['userName']}
+                        pagesData={pagesData['userName']}
                     />
-                    <UsersCell
+                    <PagesInput
                         data={data}
-                        usersPageData={usersPageData['firstName']}
+                        pagesData={pagesData['firstName']}
                     />
-                    <UsersCell
+                    <PagesInput data={data} pagesData={pagesData['lastName']} />
+                    <PagesInput data={data} pagesData={pagesData['email']} />
+                    <PagesInput
                         data={data}
-                        usersPageData={usersPageData['lastName']}
-                    />
-                    <UsersCell
-                        data={data}
-                        usersPageData={usersPageData['email']}
-                    />
-                    <UsersCell
-                        data={data}
-                        usersPageData={usersPageData['description']}
+                        pagesData={pagesData['description']}
                     />
                     <td>
-                        <UsersRights
+                        <PagesAwesomeButton
                             data={data}
-                            usersPageData={usersPageData['canConfigure']}
+                            pagesData={pagesData['canConfigure']}
                         />
-                        <UsersRights
+                        <PagesAwesomeButton
                             data={data}
-                            usersPageData={usersPageData['canChangeUsers']}
+                            pagesData={pagesData['canChangeUsers']}
                         />
-                        <UsersRights
+                        <PagesAwesomeButton
                             data={data}
-                            usersPageData={usersPageData['canChangeMenu']}
+                            pagesData={pagesData['canChangeMenu']}
                         />
-                        <UsersRights
+                        <PagesAwesomeButton
                             data={data}
-                            usersPageData={usersPageData['canChangeMaterials']}
+                            pagesData={pagesData['canChangeMaterials']}
                         />
                     </td>
                     <td>
-                        <UsersRights
+                        <PagesAwesomeButton
                             data={data}
-                            usersPageData={usersPageData['enabled']}
+                            pagesData={pagesData['enabled']}
                         />
-                        <UsersRights
+                        <PagesAwesomeButton
                             data={data}
-                            usersPageData={usersPageData['deleteUser']}
+                            pagesData={pagesData['deleteUser']}
                             handleClick={() => deleteUser(data.id)}
                         />
-                        <UsersRights
+                        <PagesAwesomeButton
                             data={data}
-                            usersPageData={usersPageData['changePassword']}
+                            pagesData={pagesData['changePassword']}
                             dataToggle='modal'
                             dataTarget={'#modalChangePassword' + data.id}
                         />
@@ -103,17 +97,17 @@ const Users = ({
                 <tbody>{rows}</tbody>
             </table>
             <div className='d-flex justify-content-center'>
-                <UsersRights
-                    usersPageData={usersPageData['addUser']}
+                <PagesAwesomeButton
+                    pagesData={pagesData['addUser']}
                     handleClick={addUser}
                 />
-                <UsersRights
-                    usersPageData={usersPageData['apply']}
+                <PagesAwesomeButton
+                    pagesData={pagesData['apply']}
                     handleClick={() => applyUsers(users)}
                     disabled={!users.canApply}
                 />
-                <UsersRights
-                    usersPageData={usersPageData['revert']}
+                <PagesAwesomeButton
+                    pagesData={pagesData['revert']}
                     handleClick={fetchUsers}
                     disabled={!users.canRevert}
                 />

@@ -87,18 +87,22 @@ const reducer = (state = initialState, action) => {
 
 const updateMenusSubclass = (menus, action) => {
     switch (action.type) {
-        case 'UPDATE_HORIZONTAL_MENU': {
+        case 'CHANGED_UPDATE_HORIZONTAL_MENU': {
             const { menu } = action.payload;
             return {
                 ...menus,
                 horizontalMenu: menu,
+                canApply: true,
+                canRevert: true,
             };
         }
-        case 'UPDATE_VERTICAL_MENU': {
+        case 'CHANGED_UPDATE_VERTICAL_MENU': {
             const { menu } = action.payload;
             return {
                 ...menus,
                 verticalMenu: menu,
+                canApply: true,
+                canRevert: true,
             };
         }
         default:

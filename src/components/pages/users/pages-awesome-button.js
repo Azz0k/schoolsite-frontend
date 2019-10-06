@@ -2,13 +2,13 @@ import React from 'react';
 import { handleUsersTableEvents } from '../../../actions';
 import { connect } from 'react-redux';
 
-let UsersCell = ({
+let PagesInput = ({
     data = {},
     handleUsersTableEvents,
     needValidation = false,
     errorFound = false,
     wrongId = null,
-    usersPageData: { text, value, validation = '' },
+    pagesData: { text, value, validation = '' },
 }) => {
     let inputValue = data[value];
     if (inputValue === null) {
@@ -43,14 +43,14 @@ const turnOffTooltip = id => {
     $('#' + id).tooltip('hide');
 };
 
-let UsersRights = ({
+let PagesAwesomeButton = ({
     data = {},
     dataToggle = 'tooltip',
     dataTarget = '',
     handleUsersTableEvents,
     handleClick = handleUsersTableEvents,
     disabled = false,
-    usersPageData: { text, value, name, classChecked, classUnchecked, tooltip },
+    pagesData: { text, value, name, classChecked, classUnchecked, tooltip },
 }) => {
     const checked = data[value];
     const className = checked ? classChecked : classUnchecked;
@@ -82,12 +82,12 @@ const mapDispatchToUsersRightsProps = {
     handleUsersTableEvents: handleUsersTableEvents,
 };
 
-UsersRights = connect(
+PagesAwesomeButton = connect(
     null,
     mapDispatchToUsersRightsProps,
-)(UsersRights);
-UsersCell = connect(
+)(PagesAwesomeButton);
+PagesInput = connect(
     null,
     mapDispatchToUsersRightsProps,
-)(UsersCell);
-export { UsersRights, UsersCell };
+)(PagesInput);
+export { PagesAwesomeButton, PagesInput };

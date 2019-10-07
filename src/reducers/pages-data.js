@@ -128,6 +128,40 @@ const pagesData = {
         classUnchecked: 'far fa-plus-square fa-2x',
         tooltip: 'Добавить элемент меню',
     },
+    editMenuName: {
+        name: 'editMenuName',
+        value: null,
+        text: '',
+        classChecked: 'far fa-edit ',
+        classUnchecked: 'far fa-edit ',
+        tooltip: 'Изменить',
+    },
+    changeLink: {
+        name: 'changeLink',
+        value: null,
+        text: '',
+        classChecked: 'far fa-link ',
+        classUnchecked: 'far fa-link ',
+        tooltip: 'Изменить cсылку',
+    },
+    menuName: {
+        name: 'menuName',
+        value: 'name',
+        text: 'Имя пункта меню',
+        classChecked: '',
+        classUnchecked: '',
+        tooltip: '',
+        validation: '',
+    },
+    menuLink: {
+        name: 'menuLink',
+        value: 'href',
+        text: '/something',
+        classChecked: '',
+        classUnchecked: '',
+        tooltip: '',
+        validation: '',
+    },
 };
 
 export default pagesData;

@@ -5,36 +5,37 @@ import { connect } from 'react-redux';
 let PagesInput = ({
     data = {},
     handleUsersTableEvents,
+    handleClick = handleUsersTableEvents,
     needValidation = false,
     errorFound = false,
     wrongId = null,
     pagesData: { text, value, validation = '' },
+    borderless = false,
+    disabled = false,
 }) => {
     let inputValue = data[value];
     if (inputValue === null) {
         inputValue = '';
     }
     let textValidation = '';
-    let className = 'form-control users-input';
+    let className = 'form-control pages-input';
+    if (borderless) className += ' pages-borderless';
     if (errorFound && needValidation && data.id === wrongId) {
         className += ' is-invalid';
         textValidation = validation;
     }
     return (
-        <td key={data.id + value}>
-            <div className='form-group'>
-                <input
-                    type='text'
-                    className={className}
-                    value={inputValue}
-                    placeholder={text}
-                    onChange={event =>
-                        handleUsersTableEvents(data.id, value, event)
-                    }
-                />
-                <div className='invalid-feedback'>{textValidation}</div>
-            </div>
-        </td>
+        <React.Fragment>
+            <input
+                type='text'
+                className={className}
+                value={inputValue}
+                placeholder={text}
+                onChange={event => handleClick(data.id, value, event)}
+                disabled={disabled}
+            />
+            {needValidation && <div className='invalid-feedback'>{textValidation}</div>}
+        </React.Fragment>
     );
 };
 

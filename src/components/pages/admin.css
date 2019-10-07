@@ -7,7 +7,7 @@ table {
     word-wrap: break-word;
 }
 
-.users-input{
+.pages-input{
     width: 10em;
 }
 
@@ -24,6 +24,14 @@ table {
 .menu-selector{
     margin: 10px;
     cursor: pointer;
+
+}
+
+.pages-borderless{
+    border: 0;
+    box-shadow: none;
+}
+.menu-list-item {
 
 }
 

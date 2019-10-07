@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { PagesAwesomeButton } from '../users/pages-awesome-button';
+import React, { useState, useEffect } from 'react';
+import { PagesInput, PagesAwesomeButton } from '../users/pages-awesome-button';
 
 const debounce = (f, ms) => {
     let isCooldown = false;
@@ -16,6 +16,7 @@ const addActive = bool => {
     return '';
 };
 
+
 // сейчас работает только на горизонтальном - сделать так, чтобы работало для обоих
 const Menus = ({
     menus: { horizontalMenu, verticalMenu, canApply, canRevert },
@@ -24,6 +25,12 @@ const Menus = ({
 }) => {
     const [droppedElement, setDroppedElement] = useState(null);
     const [isHorizontal, setMenuType] = useState(true);
+    useEffect(() => {
+        const $ = window.$;
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    });
     const horizontalClassName = 'list-group-item' + addActive(isHorizontal);
     const verticalClassName = 'list-group-item' + addActive(!isHorizontal);
     const menuToList = element =>
@@ -31,7 +38,7 @@ const Menus = ({
             const currentWidth = 100 - data.depth * 10;
             let dragClass = '';
             if (data.dragging) dragClass = ' list-group-item-warning';
-            const className = 'list-group-item w-' + currentWidth + dragClass;
+            const className = ' menu-list-item list-group-item w-' + currentWidth + dragClass;
             return (
                 <React.Fragment key={data.id}>
                     <li
@@ -60,7 +67,26 @@ const Menus = ({
                             );
                         }}
                     >
-                        {data.name}
+                        <div className='input-group input-group mb-3'>
+                            <div className='input-group-prepend'>
+                                <PagesAwesomeButton
+                                    pagesData={pagesData['editMenuName']}
+                                    handleClick={() => {}}
+                                />
+                            </div>
+                            <PagesInput
+                                data={data}
+                                pagesData={pagesData['menuName']}
+
+                                disabled={true}
+                            />
+                            <PagesInput
+                                data={data}
+                                pagesData={pagesData['menuLink']}
+
+                                disabled={true}
+                            />
+                        </div>
                     </li>
                 </React.Fragment>
             );

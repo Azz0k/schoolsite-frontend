@@ -24,23 +24,39 @@ const Users = ({
         .map(data => {
             return (
                 <tr key={data.id}>
-                    <PagesInput
-                        data={data}
-                        needValidation={true}
-                        errorFound={users.errorFound}
-                        wrongId={users.wrongId}
-                        pagesData={pagesData['userName']}
-                    />
-                    <PagesInput
-                        data={data}
-                        pagesData={pagesData['firstName']}
-                    />
-                    <PagesInput data={data} pagesData={pagesData['lastName']} />
-                    <PagesInput data={data} pagesData={pagesData['email']} />
-                    <PagesInput
-                        data={data}
-                        pagesData={pagesData['description']}
-                    />
+                    <td>
+                        <PagesInput
+                            data={data}
+                            needValidation={true}
+                            errorFound={users.errorFound}
+                            wrongId={users.wrongId}
+                            pagesData={pagesData['userName']}
+                        />
+                    </td>
+                    <td>
+                        <PagesInput
+                            data={data}
+                            pagesData={pagesData['firstName']}
+                        />
+                    </td>
+                    <td>
+                        <PagesInput
+                            data={data}
+                            pagesData={pagesData['lastName']}
+                        />
+                    </td>
+                    <td>
+                        <PagesInput
+                            data={data}
+                            pagesData={pagesData['email']}
+                        />
+                    </td>
+                    <td>
+                        <PagesInput
+                            data={data}
+                            pagesData={pagesData['description']}
+                        />
+                    </td>
                     <td>
                         <PagesAwesomeButton
                             data={data}

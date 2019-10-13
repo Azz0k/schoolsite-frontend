@@ -128,37 +128,77 @@ const updateVerticalMenu = menu => {
 const updateMenuDragDrop = dispatch => (
     menu,
     menuType,
-    droppedEl,
+    droppedElements,
     droppedOn,
     event,
 ) => {
-    const newMenu = [...menu];
-    let dragging = false;
-    if (event.type === 'dragover') dragging = true;
+    const verticalPosition = event.offsetY - event.target.clientHeight / 2;
+    let offset = verticalPosition > 0 ? 1 : 0;
+    let newMenu = [...menu];
     const depthWidth = Math.floor(event.target.parentNode.clientWidth / 10);
     let newDepth = Math.floor(event.clientX / depthWidth);
     let newFather;
-    if (newDepth === droppedOn.depth) newFather = droppedOn.father;
-    else {
+    const droppedElementId = droppedElements.values().next().value;
+    const droppedEl = menu.find(el => el.id === droppedElementId);
+    if (verticalPosition < 0) {
+        newFather = droppedOn.father;
+        newDepth = droppedOn.depth;
+    } else {
         newDepth = droppedOn.depth + 1;
         newFather = droppedOn.id;
     }
-    const newEl = {
-        ...droppedEl,
-        father: newFather,
-        depth: newDepth,
-        dragging,
-    };
-    if (droppedOn.id !== droppedEl.id) {
-        let index = newMenu.findIndex(el => el.id === droppedEl.id);
-        newMenu.splice(index, 1);
-        index = newMenu.findIndex(el => el.id === droppedOn.id);
-        const verticalPosition = event.offsetY - event.target.clientHeight / 2;
-        if (verticalPosition > 0) index++;
-        newMenu.splice(index, 0, newEl);
+    if (event.type === 'dragover') {
+        if (droppedElements.has(droppedOn.id)) return false;
+        const dragging = true;
+        const newEl = {
+            ...droppedEl,
+            dragging,
+            father: newFather,
+            depth: newDepth,
+        };
+        const oldIndex = newMenu.findIndex(el => el.id === droppedEl.id);
+        newMenu.splice(oldIndex, 1);
+        let newIndex = newMenu.findIndex(el => el.id === droppedOn.id);
+        if (verticalPosition > 0) newIndex++;
+        newMenu.splice(newIndex, 0, newEl);
     } else {
-        let index = newMenu.findIndex(el => el.id === droppedOn.id);
-        newMenu.splice(index, 1, newEl);
+        if (droppedElements.has(droppedOn.id) && droppedOn.id !== droppedEl.id)
+            return false;
+        const dragging = false;
+        if (droppedOn.id === droppedEl.id) {
+            newFather = droppedEl.father;
+            newDepth = droppedEl.depth;
+        }
+        const droppedElementsArray = Array.from(droppedElements);
+        droppedElements.forEach(value => {
+            const oldElement = newMenu.find(el => el.id === value);
+            const oldIndex = newMenu.findIndex(el => el.id === value);
+            newMenu.splice(oldIndex, 1);
+            let newIndex = 0;
+            if (value === droppedEl.id) {
+                newIndex = newMenu.findIndex(el => el.id === droppedOn.id);
+                if (verticalPosition > 0) newIndex++;
+            } else {
+                newIndex = newMenu.findIndex(el => el.id === droppedOn.id);
+                if (verticalPosition > 0) newIndex++;
+                const offset = droppedElementsArray.findIndex(
+                    el => el === value,
+                );
+                newIndex += offset;
+                newFather = oldElement.father;
+                const tempFather = newMenu.find(
+                    el => el.id === oldElement.father,
+                );
+                newDepth = tempFather.depth + 1;
+            }
+            const newEl = {
+                ...oldElement,
+                dragging,
+                father: newFather,
+                depth: newDepth,
+            };
+            newMenu.splice(newIndex, 0, newEl);
+        });
     }
     if (menuType) dispatch(updateHorizontalMenu(newMenu));
     else dispatch(updateVerticalMenu(newMenu));

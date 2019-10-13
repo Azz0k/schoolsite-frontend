@@ -16,8 +16,15 @@ const addActive = bool => {
     return '';
 };
 
+const findAllChildren = (element, menu) => {
+    const elements = new Set();
+    elements.add(element.id);
+    menu.forEach(el => {
+        if (elements.has(el.father)) elements.add(el.id);
+    });
+    return elements;
+};
 
-// сейчас работает только на горизонтальном - сделать так, чтобы работало для обоих
 const Menus = ({
     menus: { horizontalMenu, verticalMenu, canApply, canRevert },
     updateMenuDragDrop,
@@ -31,6 +38,7 @@ const Menus = ({
             $('[data-toggle="tooltip"]').tooltip();
         });
     });
+    const thisMenu = isHorizontal ? horizontalMenu : verticalMenu;
     const horizontalClassName = 'list-group-item' + addActive(isHorizontal);
     const verticalClassName = 'list-group-item' + addActive(!isHorizontal);
     const menuToList = element =>
@@ -38,19 +46,20 @@ const Menus = ({
             const currentWidth = 100 - data.depth * 10;
             let dragClass = '';
             if (data.dragging) dragClass = ' list-group-item-warning';
-            const className = ' menu-list-item list-group-item w-' + currentWidth + dragClass;
+            const className =
+                ' menu-list-item list-group-item w-' + currentWidth + dragClass;
             return (
                 <React.Fragment key={data.id}>
                     <li
                         className={className}
                         draggable
                         onDragStart={() => {
-                            setDroppedElement(data);
+                            setDroppedElement(findAllChildren(data, thisMenu));
                         }}
                         onDragOver={event => {
                             event.preventDefault();
                             updateMenuDragDrop(
-                                isHorizontal ? horizontalMenu : verticalMenu,
+                                thisMenu,
                                 isHorizontal,
                                 droppedElement,
                                 data,
@@ -59,7 +68,7 @@ const Menus = ({
                         }}
                         onDrop={event => {
                             updateMenuDragDrop(
-                                isHorizontal ? horizontalMenu : verticalMenu,
+                                thisMenu,
                                 isHorizontal,
                                 droppedElement,
                                 data,
